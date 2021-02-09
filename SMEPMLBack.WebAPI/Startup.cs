@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SMEPMLBack.Core.Interfaces;
+using SMEPMLBack.Infrastructure;
 using SMEPMLBack.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -28,9 +30,14 @@ namespace SMEPMLBack.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<AppDbContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("SMEPMLBack.Infrastructure"))
+                );
             services.AddScoped<ISintomaRepository, SintomaRepository>();
             services.AddScoped<IEnfermedadRepository, EnfermedadRepository>();
             services.AddSwaggerGen();
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

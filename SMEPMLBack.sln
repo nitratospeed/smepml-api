@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMEPMLBack.Core", "SMEPMLBack.Core\SMEPMLBack.Core.csproj", "{F1F6C4AE-3FF2-4AE5-9C09-276C6A8B4C19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEPMLBack.Core", "SMEPMLBack.Core\SMEPMLBack.Core.csproj", "{F1F6C4AE-3FF2-4AE5-9C09-276C6A8B4C19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMEPMLBack.Infrastructure", "SMEPMLBack.Infrastructure\SMEPMLBack.Infrastructure.csproj", "{AC02E5EA-7803-4565-8020-66511C88E5B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEPMLBack.Infrastructure", "SMEPMLBack.Infrastructure\SMEPMLBack.Infrastructure.csproj", "{AC02E5EA-7803-4565-8020-66511C88E5B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMEPMLBack.WebAPI", "SMEPMLBack.WebAPI\SMEPMLBack.WebAPI.csproj", "{20356593-8101-4E9B-9EE1-A6BC7FA25A92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEPMLBack.WebAPI", "SMEPMLBack.WebAPI\SMEPMLBack.WebAPI.csproj", "{20356593-8101-4E9B-9EE1-A6BC7FA25A92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,7 +7,7 @@ namespace SMEPMLBack.Core.Entities
     public class Paciente
     {
         public int Id { get; set; }
-        public string Nombres { get; set; }
+        public string NombresApellidos { get; set; }
         public int Edad { get; set; }
         public string Genero { get; set; }
     }
