@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SMEPMLBack.Core\SMEPMLBack.Core.csproj" />
-    <ProjectReference Include="..\SMEPMLBack.Infrastructure\SMEPMLBack.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

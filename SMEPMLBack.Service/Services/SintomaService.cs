@@ -1,4 +1,5 @@
 ﻿using SMEPMLBack.Core.Entities;
+using SMEPMLBack.Core.Interfaces.Repositories;
 using SMEPMLBack.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,16 @@ namespace SMEPMLBack.Service.Services
 {
     public class SintomaService : ISintomaService
     {
-        private readonly ISintomaService _sintomaService;
+        private readonly ISintomaRepository _sintomaRepository;
 
-        public SintomaService(ISintomaService sintomaService)
+        public SintomaService(ISintomaRepository sintomaRepository)
         {
-            _sintomaService = sintomaService;
+            _sintomaRepository = sintomaRepository;
         }
 
         public async Task<IEnumerable<Sintoma>> Obtener()
         {
-            return await _sintomaService.Obtener();
+            return await _sintomaRepository.Obtener();
         }
     }
 }

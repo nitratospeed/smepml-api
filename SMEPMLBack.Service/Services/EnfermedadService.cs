@@ -1,7 +1,6 @@
 ﻿using SMEPMLBack.Core.Entities;
 using SMEPMLBack.Core.Interfaces.Repositories;
 using SMEPMLBack.Core.Interfaces.Services;
-using SMEPMLBack.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Text;
