@@ -4,6 +4,7 @@ using SMEPMLBack.Core.Entities;
 using SMEPMLBack.Core.Interfaces;
 using SMEPMLBack.Core.Interfaces.Services;
 using SMEPMLBack.Infrastructure.Repositories;
+using SMEPMLBack.Service.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace SMEPMLBack.WebAPI.Controllers
         public async Task<IActionResult> Get()
         {
             var resultado = await _sintomaService.Obtener();
-            return Ok(resultado);
+            return Ok(new Response<IEnumerable<Sintoma>>(resultado));
         }
     }
 }
