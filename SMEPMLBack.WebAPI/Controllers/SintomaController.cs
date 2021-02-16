@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SMEPMLBack.Core.Entities;
 using SMEPMLBack.Core.Interfaces;
+using SMEPMLBack.Core.Interfaces.Services;
 using SMEPMLBack.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,18 +16,18 @@ namespace SMEPMLBack.WebAPI.Controllers
     [ApiController]
     public class SintomaController : ControllerBase
     {
-        private readonly ISintomaRepository _sintomaRepository;
+        private readonly ISintomaService _sintomaService;
 
-        public SintomaController(ISintomaRepository sintomaRepository)
+        public SintomaController(ISintomaService sintomaService)
         {
-            _sintomaRepository = sintomaRepository;
+            _sintomaService = sintomaService;
         }
 
         [HttpGet]
-        public List<Sintoma> ObtenerSintomas()
+        public async Task<IActionResult> Get()
         {
-            var resultado = _sintomaRepository.ObtenerSintomas();
-            return resultado;
+            var resultado = await _sintomaService.Obtener();
+            return Ok(resultado);
         }
     }
 }

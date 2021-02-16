@@ -1,9 +1,10 @@
 ﻿using SMEPMLBack.Core.Entities;
-using SMEPMLBack.Core.Interfaces;
+using SMEPMLBack.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SMEPMLBack.Infrastructure.Repositories
 {
@@ -16,11 +17,29 @@ namespace SMEPMLBack.Infrastructure.Repositories
             _context = context;
         }
 
-        public List<Sintoma> ObtenerSintomas()
+        public void Actualizar()
         {
-            var sintomas = _context.Sintoma.ToList();
+            throw new NotImplementedException();
+        }
 
-            return sintomas;
+        public void Agregar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Eliminar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Sintoma>> Obtener()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Sintoma> ObtenerPorId()
+        {
+            throw new NotImplementedException();
         }
     }
 }

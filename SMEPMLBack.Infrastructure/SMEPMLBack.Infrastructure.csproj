@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SMEPMLBack.Core\SMEPMLBack.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>

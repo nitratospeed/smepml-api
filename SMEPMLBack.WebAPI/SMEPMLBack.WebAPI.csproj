@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SMEPMLBack.Core\SMEPMLBack.Core.csproj" />
     <ProjectReference Include="..\SMEPMLBack.Infrastructure\SMEPMLBack.Infrastructure.csproj" />
+    <ProjectReference Include="..\SMEPMLBack.Service\SMEPMLBack.Service.csproj" />
   </ItemGroup>
 
 

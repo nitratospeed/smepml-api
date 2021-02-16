@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMEPMLBack.Core\SMEPMLBack.Core.csproj" />
+    <ProjectReference Include="..\SMEPMLBack.Infrastructure\SMEPMLBack.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -8,8 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SMEPMLBack.Core.Interfaces;
+using SMEPMLBack.Core.Interfaces.Repositories;
+using SMEPMLBack.Core.Interfaces.Services;
 using SMEPMLBack.Infrastructure;
 using SMEPMLBack.Infrastructure.Repositories;
+using SMEPMLBack.Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,8 +37,13 @@ namespace SMEPMLBack.WebAPI
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsAssembly("SMEPMLBack.Infrastructure"))
                 );
+
             services.AddScoped<ISintomaRepository, SintomaRepository>();
             services.AddScoped<IEnfermedadRepository, EnfermedadRepository>();
+
+            services.AddScoped<ISintomaService, SintomaService>();
+            services.AddScoped<IEnfermedadService, EnfermedadService>();
+
             services.AddSwaggerGen();
             services.AddRouting(options => options.LowercaseUrls = true);
         }

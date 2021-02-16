@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEPMLBack.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMEPMLBack.WebAPI", "SMEPMLBack.WebAPI\SMEPMLBack.WebAPI.csproj", "{20356593-8101-4E9B-9EE1-A6BC7FA25A92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMEPMLBack.Service", "SMEPMLBack.Service\SMEPMLBack.Service.csproj", "{847BD065-F3B5-4A66-80BE-428B73C37BD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{20356593-8101-4E9B-9EE1-A6BC7FA25A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20356593-8101-4E9B-9EE1-A6BC7FA25A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20356593-8101-4E9B-9EE1-A6BC7FA25A92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847BD065-F3B5-4A66-80BE-428B73C37BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847BD065-F3B5-4A66-80BE-428B73C37BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847BD065-F3B5-4A66-80BE-428B73C37BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847BD065-F3B5-4A66-80BE-428B73C37BD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SMEPMLBack.Core.Entities;
 using SMEPMLBack.Core.Interfaces;
+using SMEPMLBack.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +15,18 @@ namespace SMEPMLBack.WebAPI.Controllers
     [ApiController]
     public class EnfermedadController : ControllerBase
     {
-        private readonly IEnfermedadRepository _enfermedadRepository;
+        private readonly IEnfermedadService _enfermedadService;
 
-        public EnfermedadController(IEnfermedadRepository enfermedadRepository)
+        public EnfermedadController(IEnfermedadService enfermedadService)
         {
-            _enfermedadRepository = enfermedadRepository;
+            _enfermedadService = enfermedadService;
         }
 
         [HttpGet]
-        public List<Enfermedad> ObtenerEnfermedades()
+        public async Task<IActionResult> Get()
         {
-            var resultado = _enfermedadRepository.ObtenerEnfermedades();
-            return resultado;
+            var resultado = await _enfermedadService.Obtener();
+            return Ok(resultado);
         }
     }
 }
