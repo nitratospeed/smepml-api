@@ -1,4 +1,5 @@
-﻿using SMEPMLBack.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SMEPMLBack.Core.Entities;
 using SMEPMLBack.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,9 @@ namespace SMEPMLBack.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Sintoma>> Obtener()
+        public async Task<IEnumerable<Sintoma>> Obtener()
         {
-            throw new NotImplementedException();
+            return await _context.Sintoma.ToListAsync();
         }
 
         public Task<Sintoma> ObtenerPorId()
