@@ -12,6 +12,7 @@ using SMEPMLBack.Core.Interfaces.Repositories;
 using SMEPMLBack.Core.Interfaces.Services;
 using SMEPMLBack.Infrastructure;
 using SMEPMLBack.Infrastructure.Repositories;
+using SMEPMLBack.Infrastructure.Services;
 using SMEPMLBack.Service.Services;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace SMEPMLBack.WebAPI
 
             services.AddScoped<ISintomaService, SintomaService>();
             services.AddScoped<IEnfermedadService, EnfermedadService>();
+            services.AddScoped<IModelService, ModelService>();
 
             services.AddSwaggerGen();
             services.AddRouting(options => options.LowercaseUrls = true);
