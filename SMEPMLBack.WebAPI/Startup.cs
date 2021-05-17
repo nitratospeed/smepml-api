@@ -28,6 +28,8 @@ namespace SMEPMLBack.WebAPI
             Configuration = configuration;
         }
 
+        public readonly string AllowSpecificOrigins = "_allowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -45,6 +47,18 @@ namespace SMEPMLBack.WebAPI
             services.AddScoped<ISintomaService, SintomaService>();
             services.AddScoped<IEnfermedadService, EnfermedadService>();
             services.AddScoped<IModelService, ModelService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddSwaggerGen();
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -68,7 +82,25 @@ namespace SMEPMLBack.WebAPI
 
             app.UseHttpsRedirection();
 
+            app.Use((context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "Deny");
+                context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+                context.Response.Headers.Add("Permissions-Policy", "geolocation=(), midi=(), camera=(),usb=(), magnetometer=(), sync-xhr=(), microphone=(), camera=(), gyroscope=(), speaker=(), payment=()");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src https:; style-src https:; img-src https: data:; font-src https: data:; script-src https:; connect-src https:; frame-ancestors https:; form-action https:; base-uri https:; object-src 'none'");
+                context.Response.Headers.Add("Expect-CT", "max-age=0");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+                //context.Response.Headers.Add("Cache-Control", "private, no-cache, no-store, must-revalidate, max-age=0");
+                //context.Response.Headers.Add("Pragma", "no-cache");
+                //context.Response.Headers.Add("Expires", "0");
+                return next.Invoke();
+            });
+
             app.UseRouting();
+
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseAuthorization();
 
