@@ -9,7 +9,7 @@ using SMEPMLBack.Infrastructure;
 namespace SMEPMLBack.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210209165751_InitialMigration")]
+    [Migration("20210517232552_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
