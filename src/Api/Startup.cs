@@ -1,3 +1,4 @@
+using Api.Filters;
 using Application;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
@@ -39,7 +40,10 @@ namespace Api
 
             services.AddInfrastructure(Configuration);
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<BaseApiResponseFilterAttribute>();
+            });
 
             services.AddCors(options =>
             {
