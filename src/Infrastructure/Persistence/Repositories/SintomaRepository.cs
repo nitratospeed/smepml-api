@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,29 +20,19 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public void Actualizar()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Agregar()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Eliminar()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Sintoma>> Obtener()
+        public async Task<IEnumerable<Sintoma>> GetAll()
         {
             return await _context.Sintomas.ToListAsync();
         }
 
-        public Task<Sintoma> ObtenerPorId()
+        public async Task<Sintoma> GetFilter(Expression<Func<Sintoma, bool>> filter)
         {
-            throw new NotImplementedException();
+            return await _context.Sintomas.AsNoTracking().FirstOrDefaultAsync(filter);
+        }
+
+        public async Task<List<Sintoma>> GetSearch(Expression<Func<Sintoma, bool>> filter)
+        {
+            return await _context.Sintomas.AsNoTracking().Where(filter).ToListAsync();
         }
     }
 }

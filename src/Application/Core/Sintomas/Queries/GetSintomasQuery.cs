@@ -15,6 +15,7 @@ namespace Application.Core.Sintomas.Queries
 {
     public class GetSintomasQuery : IRequest<IEnumerable<Sintoma>>
     {
+        public string Nombre { get; set; }
     }
 
     public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, IEnumerable<Sintoma>>
@@ -30,9 +31,14 @@ namespace Application.Core.Sintomas.Queries
 
         public async Task<IEnumerable<Sintoma>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.Obtener();
-
-            return result;
+            if (request.Nombre is null)
+            {
+                return await repository.GetAll();
+            }
+            else
+            {
+                return await repository.GetSearch(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()));
+            }
         }
     }
 }
