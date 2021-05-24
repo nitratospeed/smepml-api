@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SMEPMLBack.WebAPI": {
+    "Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",

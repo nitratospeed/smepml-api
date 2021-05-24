@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
@@ -21,7 +22,7 @@ namespace Infrastructure
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
-            services.AddScoped<AppDbContext>(provider => provider.GetService<AppDbContext>());
+            services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
             services.AddScoped<IEnfermedadRepository, EnfermedadRepository>();
             services.AddScoped<ISintomaRepository, SintomaRepository>();
             services.AddScoped<IModelService, ModelService>();

@@ -11,7 +11,7 @@ namespace Api.Controllers.v1
     public class PrediccionController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get(GetPrediccionQuery query)
+        public async Task<IActionResult> Get([FromQuery] GetPrediccionQuery query)
         {
             return Ok(await Mediator.Send(query));
         }

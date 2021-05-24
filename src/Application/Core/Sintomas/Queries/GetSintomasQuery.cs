@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Sintomas.Queries
 {
-    public class GetSintomasQuery : IRequest<List<SintomaDto>>
+    public class GetSintomasQuery : IRequest<IEnumerable<Sintoma>>
     {
     }
 
-    public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, List<SintomaDto>>
+    public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, IEnumerable<Sintoma>>
     {
         private readonly ISintomaRepository repository;
         private readonly IMapper mapper;
@@ -28,12 +28,9 @@ namespace Application.Core.Sintomas.Queries
             this.mapper = mapper;
         }
 
-        public async Task<List<SintomaDto>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Sintoma>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.Obtener()
-                .Result.AsQueryable()
-                .ProjectTo<SintomaDto>(mapper.ConfigurationProvider)
-                .ToListAsync();
+            var result = await repository.Obtener();
 
             return result;
         }
