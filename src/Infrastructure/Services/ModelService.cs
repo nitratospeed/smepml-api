@@ -11,13 +11,13 @@ namespace Infrastructure.Services
     {
         private static Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictionEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(CreatePredictionEngine);
 
-        public async Task<string> ObtenerPrediccion(string Sintoma1, string Sintoma2, string Sintoma3)
+        public async Task<string> ObtenerPrediccion(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
         {
             var input = new ModelInput
             {
-                SINTOMA1 = Sintoma1,
-                SINTOMA2 = Sintoma2,
-                SINTOMA3 = Sintoma3
+                SINTOMA1 = Sintomas[0],
+                SINTOMA2 = Sintomas[1],
+                SINTOMA3 = Sintomas[2]
             };
 
             ModelOutput result = PredictionEngine.Value.Predict(input);

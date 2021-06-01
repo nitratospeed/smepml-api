@@ -7,6 +7,6 @@ namespace Application.Common.Interfaces.Services
 {
     public interface IModelService
     {
-        Task<string> ObtenerPrediccion(string Sintoma1, string Sintoma2, string Sintoma3);
+        Task<string> ObtenerPrediccion(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas);
     }
 }

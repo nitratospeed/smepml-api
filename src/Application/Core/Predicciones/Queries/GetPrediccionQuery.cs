@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces.Services;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,10 @@ namespace Application.Core.Predicciones.Queries
 {
     public class GetPrediccionQuery : IRequest<string>
     {
-        public string Sintoma1 { get; set; }
-        public string Sintoma2 { get; set; }
-        public string Sintoma3 { get; set; }
+        public string Sexo { get; set; }
+        public int Edad { get; set; }
+        public List<string> Condiciones { get; set; }
+        public List<string> Sintomas { get; set; }
     }
 
     public class GetPrediccionQueryHandler : IRequestHandler<GetPrediccionQuery, string>
@@ -26,7 +28,7 @@ namespace Application.Core.Predicciones.Queries
 
         public async Task<string> Handle(GetPrediccionQuery request, CancellationToken cancellationToken)
         {
-            var result = await service.ObtenerPrediccion(request.Sintoma1, request.Sintoma2, request.Sintoma3);
+            var result = await service.ObtenerPrediccion(request.Sexo, request.Edad, request.Condiciones, request.Sintomas);
 
             return result;
         }
