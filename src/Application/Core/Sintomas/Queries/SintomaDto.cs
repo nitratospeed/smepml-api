@@ -11,6 +11,8 @@ namespace Application.Core.Sintomas.Queries
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Nivel { get; set; }
+        public bool HasNivel { get; set; }
 
         public void Mapping(Profile profile)
         {
