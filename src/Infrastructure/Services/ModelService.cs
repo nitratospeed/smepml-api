@@ -39,7 +39,7 @@ namespace Infrastructure.Services
 
         public async Task<List<string>> ObtenerPrediccionAzure(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
         {
-            string sintomas = string.Join(", ", Sintomas.ToArray());
+            string sintomas = string.Join(" ", Sintomas.ToArray());
 
             var handler = new HttpClientHandler()
             {
@@ -76,9 +76,9 @@ namespace Infrastructure.Services
                 };
                 
 
-                const string apiKey = "1e7ZuWn9ASjL4O2qDfB3YtqusQUa6yIF"; // Replace this with the API key for the web service
+                const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", apiKey);
-                client.BaseAddress = new Uri("http://a61296b7-cfc3-4f5b-a71b-f51fd4d5bd9d.centralus.azurecontainer.io/score");
+                client.BaseAddress = new Uri("http://95079e12-7942-4f8c-8fde-43a58117e83e.centralus.azurecontainer.io/score");
 
                 // WARNING: The 'await' statement below can result in a deadlock
                 // if you are calling this code from the UI thread of an ASP.Net application.
