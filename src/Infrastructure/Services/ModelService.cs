@@ -1,8 +1,10 @@
 ﻿using Application.Common.Interfaces.Services;
+using Domain.Entities;
 using Microsoft.ML;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -100,11 +102,38 @@ namespace Infrastructure.Services
                 {
                     string result = await response.Content.ReadAsStringAsync();
 
-                    var dfff = result.Replace("\"", "").Replace("/","").Split(new char[] { ',' }).ToList().Where(x=>x.Contains("Scored Probabilities_")).ToList();
+                    var resultConverted = JsonConvert.DeserializeObject<ModelAzure>(result);
 
-                    var resultado = result.Replace("\"", "").Replace("/", "").Replace("}", "").Replace("]", "").Split(new char[] { ',' }).ToList().Where(x => x.Contains("Scored Labels")).FirstOrDefault();
-                    dfff.Add(resultado);
-                    return dfff;
+                    var enfermedadMasProbable = resultConverted.Results.WebServiceOutput0[0].ScoredLabels;
+
+                    var enfermedades = resultConverted.Results.WebServiceOutput0;
+
+                    var top5enfermedades = new List<string>();
+
+                    var columns = enfermedades.First().GetType().GetProperties();
+
+                    IDictionary<string, string> enfermedadesScore = new Dictionary<string, string>();
+
+                    foreach (var item in columns)
+                    {
+                        if (item.Name.Contains("ScoredProbabilities_"))
+                        {
+                            var ggg = item.GetValue(enfermedades.First()).ToString();
+                            enfermedadesScore.Add(item.Name, ggg);
+                        }
+                    }
+
+                    foreach (var item in enfermedadesScore.OrderByDescending(x => x.Value).Take(5))
+                    {
+                        var percDouble = double.Parse(item.Value);
+                        var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_"," ");
+
+                        top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
+                    }
+
+                    top5enfermedades.Add(enfermedades[0].ScoredLabels);
+
+                    return top5enfermedades;
                 }
                 else
                 {
