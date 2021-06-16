@@ -104,8 +104,6 @@ namespace Infrastructure.Services
 
                     var resultConverted = JsonConvert.DeserializeObject<ModelAzure>(result);
 
-                    var enfermedadMasProbable = resultConverted.Results.WebServiceOutput0[0].ScoredLabels;
-
                     var enfermedades = resultConverted.Results.WebServiceOutput0;
 
                     var top5enfermedades = new List<string>();
@@ -130,8 +128,6 @@ namespace Infrastructure.Services
 
                         top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
                     }
-
-                    top5enfermedades.Add(enfermedades[0].ScoredLabels);
 
                     return top5enfermedades;
                 }
