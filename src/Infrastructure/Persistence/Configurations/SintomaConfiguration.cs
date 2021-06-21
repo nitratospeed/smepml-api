@@ -27,12 +27,7 @@ namespace Infrastructure.Persistence.Configurations
                 .HasMaxLength(50);
 
             builder
-                .Property(x => x.Nivel)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder
-                .Property(x => x.HasNivel)
+                .Property(x => x.HasPreguntas)
                 .IsRequired();
         }
     }
