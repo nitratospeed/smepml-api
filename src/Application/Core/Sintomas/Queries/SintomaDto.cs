@@ -1,4 +1,5 @@
 ﻿using Application.Common.Mappings;
+using Application.Core.Preguntas.Queries;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -11,8 +12,8 @@ namespace Application.Core.Sintomas.Queries
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Nivel { get; set; }
-        public bool HasNivel { get; set; }
+        public bool HasPreguntas { get; set; }
+        public List<PreguntaDto> Preguntas { get; set; }
 
         public void Mapping(Profile profile)
         {

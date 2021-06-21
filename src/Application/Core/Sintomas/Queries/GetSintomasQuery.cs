@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -13,31 +14,31 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Sintomas.Queries
 {
-    public class GetSintomasQuery : IRequest<IEnumerable<Sintoma>>
+    public class GetSintomasQuery : IRequest<List<SintomaDto>>
     {
         public string Nombre { get; set; }
     }
 
-    public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, IEnumerable<Sintoma>>
+    public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, List<SintomaDto>>
     {
-        private readonly ISintomaRepository repository;
+        private readonly IAppDbContext context;
         private readonly IMapper mapper;
 
-        public GetSintomasQueryHandler(ISintomaRepository repository, IMapper mapper)
+        public GetSintomasQueryHandler(IAppDbContext context, IMapper mapper)
         {
-            this.repository = repository;
+            this.context = context;
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<Sintoma>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
+        public async Task<List<SintomaDto>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
             if (request.Nombre is null)
             {
-                return await repository.GetAll();
+                return await context.Sintomas.Include(x=>x.Preguntas).ThenInclude(x=>x.Opciones).ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToListAsync();
             }
             else
             {
-                return await repository.GetSearch(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()));
+                return await context.Sintomas.Include(x => x.Preguntas).ThenInclude(x => x.Opciones).Where(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower())).ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToListAsync();
             }
         }
     }
