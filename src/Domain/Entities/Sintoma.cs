@@ -10,5 +10,6 @@ namespace Domain.Entities
         public string Nombre { get; set; }
         public string Nivel { get; set; }
         public bool HasNivel { get; set; }
+        public List<Pregunta> Preguntas { get; set; }
     }
 }

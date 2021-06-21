@@ -11,5 +11,7 @@ namespace Application.Common.Interfaces
         DbSet<Enfermedad> Enfermedades { get; set; }
         DbSet<Paciente> Pacientes { get; set; }
         DbSet<Sintoma> Sintomas { get; set; }
+        DbSet<Pregunta> Preguntas { get; set; }
+        DbSet<Opcion> Opciones { get; set; }
     }
 }

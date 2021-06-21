@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Application.Common.Mappings
 {
-    public class IMapFrom<T>
+    public interface IMapFrom<T>
     {
         void Mapping(Profile profile) => profile.CreateMap(typeof(T), GetType());
     }
