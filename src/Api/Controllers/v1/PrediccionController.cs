@@ -1,4 +1,4 @@
-﻿using Application.Core.Predicciones.Queries;
+﻿using Application.Core.Predicciones.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,10 +10,10 @@ namespace Api.Controllers.v1
 {
     public class PrediccionController : BaseApiController
     {
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetPrediccionQuery query)
+        [HttpPost]
+        public async Task<ActionResult<List<string>>> Create(PrediccionCommand command)
         {
-            return Ok(await Mediator.Send(query));
+            return await Mediator.Send(command);
         }
     }
 }

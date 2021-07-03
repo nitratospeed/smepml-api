@@ -1,4 +1,4 @@
-﻿using Application.Core.Predicciones.Queries;
+﻿using Application.Core.Predicciones.Commands;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -27,17 +27,24 @@ namespace Application.IntegrationTests.Core.Predicciones.Queries
                 "Hipertension"
             };
 
+            var preguntas = new List<string>
+            {
+                "¿Cuál es el nivel de su dolor?",
+                "¿Cuántos días tiene las náuseas?"
+            };
+
             //arrange
-            var query = new GetPrediccionQuery
+            var command = new PrediccionCommand
             {
                 Edad = 26,
-                Sexo = "M",
+                Genero = "M",
                 Condiciones = condiciones,
+                Preguntas = preguntas,
                 Sintomas = sintomas
             };
 
             //act
-            var result = await SendAsync(query);
+            var result = await SendAsync(command);
 
             //assert (lo q deberia cumplir)
             result.Should().NotBeNull();
