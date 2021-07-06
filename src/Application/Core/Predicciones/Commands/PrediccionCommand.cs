@@ -4,6 +4,7 @@ using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,15 +23,21 @@ namespace Application.Core.Predicciones.Commands
 
     public class PrediccionCommandHandler : IRequestHandler<PrediccionCommand, PrediccionDto>
     {
-        private readonly IModelService service;
+        private readonly IAzureMLService service;
         private readonly IDiagnosticoRepository diagnosticoRepository;
         private readonly IPacienteRepository pacienteRepository;
+        private readonly IEnfermedadRepository enfermedadRepository;
 
-        public PrediccionCommandHandler(IModelService service, IPacienteRepository pacienteRepository, IDiagnosticoRepository diagnosticoRepository)
+        public PrediccionCommandHandler(
+            IAzureMLService service,
+            IPacienteRepository pacienteRepository,
+            IDiagnosticoRepository diagnosticoRepository,
+            IEnfermedadRepository enfermedadRepository)
         {
             this.service = service;
             this.diagnosticoRepository = diagnosticoRepository;
             this.pacienteRepository = pacienteRepository;
+            this.enfermedadRepository = enfermedadRepository;
         }
 
         public async Task<PrediccionDto> Handle(PrediccionCommand request, CancellationToken cancellationToken)
@@ -55,12 +62,14 @@ namespace Application.Core.Predicciones.Commands
 
             await diagnosticoRepository.Add(diagnostico);
 
-            var result = await service.ObtenerPrediccionAzure(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
+            var result = await service.GetPrediction(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
+
+            var recomend = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
 
             var prediccionDto = new PrediccionDto
             {
-                Enfermedades = result,
-                Recomendacion = "El paciente deberá seguir..."
+                Enfermedades = result.Resultados,
+                Recomendacion = recomend.Recomendacion
             };
 
             return prediccionDto;

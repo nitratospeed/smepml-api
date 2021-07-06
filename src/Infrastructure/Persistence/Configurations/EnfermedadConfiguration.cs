@@ -25,6 +25,10 @@ namespace Infrastructure.Persistence.Configurations
                 .Property(x => x.Nombre)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Recomendacion)
+                .IsRequired();
         }
     }
 }

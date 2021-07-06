@@ -29,7 +29,7 @@ namespace Infrastructure
             services.AddScoped<IPacienteRepository, PacienteRepository>();
             services.AddScoped<IPreguntaRepository, PreguntaRepository>();
             services.AddScoped<IOpcionRepository, OpcionRepository>();
-            services.AddScoped<IModelService, ModelService>();
+            services.AddScoped<IAzureMLService, AzureMLService>();
 
             return services;
         }

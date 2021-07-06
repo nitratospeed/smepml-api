@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Infrastructure.Services
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
     public class WebServiceOutput0
     {
         public string ENFERMEDAD { get; set; }
@@ -164,7 +163,7 @@ namespace Infrastructure.Services
         public List<WebServiceOutput0> WebServiceOutput0 { get; set; }
     }
 
-    public class ModelAzure
+    public class AzureMLResponse
     {
         public Results Results { get; set; }
     }

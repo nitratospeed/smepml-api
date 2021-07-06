@@ -1,46 +1,21 @@
 ﻿using Application.Common.Interfaces.Services;
-using Domain.Entities;
-using Microsoft.ML;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class ModelService : IModelService
+    public class AzureMLService : IAzureMLService
     {
-        private static PredictionEngine<ModelInput, ModelOutput> _predEngine;
-
-        public async Task<List<string>> ObtenerPrediccion(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
+        public async Task<GetPredictionResponse> GetPrediction(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
         {
-            string modelPath = "model.zip";
+            var predictionResponse = new GetPredictionResponse();
 
-            MLContext _mlContext = new MLContext();
-
-            ITransformer loadedModel = _mlContext.Model.Load(modelPath, out var modelInputSchema);
-
-            string sintomas = string.Join(" ", Sintomas.ToArray());
-
-            ModelInput singleIssue = new ModelInput() { SINTOMA = sintomas };
-
-            _predEngine = _mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(loadedModel);
-
-            var prediction = _predEngine.Predict(singleIssue);
-
-            var gg = new List<string>();
-            gg.Add(prediction.ENFERMEDAD);
-            return await Task.FromResult(gg);
-        }
-
-        public async Task<List<string>> ObtenerPrediccionAzure(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
-        {
             string sintomas = string.Join(" ", Sintomas.ToArray());
 
             var handler = new HttpClientHandler()
@@ -102,7 +77,7 @@ namespace Infrastructure.Services
                 {
                     string result = await response.Content.ReadAsStringAsync();
 
-                    var resultConverted = JsonConvert.DeserializeObject<ModelAzure>(result);
+                    var resultConverted = JsonConvert.DeserializeObject<AzureMLResponse>(result);
 
                     var enfermedades = resultConverted.Results.WebServiceOutput0;
 
@@ -129,7 +104,10 @@ namespace Infrastructure.Services
                         top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
                     }
 
-                    return top5enfermedades;
+                    predictionResponse.Resultados = top5enfermedades;
+                    predictionResponse.EnfermedadMasPrecisa = enfermedades[0].ScoredLabels;
+
+                    return predictionResponse;
                 }
                 else
                 {
