@@ -25,6 +25,8 @@ namespace Infrastructure
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
             services.AddScoped<IEnfermedadRepository, EnfermedadRepository>();
             services.AddScoped<ISintomaRepository, SintomaRepository>();
+            services.AddScoped<IDiagnosticoRepository, DiagnosticoRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
             services.AddScoped<IModelService, ModelService>();
 
             return services;

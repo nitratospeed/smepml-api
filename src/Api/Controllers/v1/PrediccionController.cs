@@ -11,9 +11,9 @@ namespace Api.Controllers.v1
     public class PrediccionController : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult<List<string>>> Create(PrediccionCommand command)
+        public async Task<IActionResult> Create(PrediccionCommand command)
         {
-            return await Mediator.Send(command);
+            return Ok(await Mediator.Send(command));
         }
     }
 }

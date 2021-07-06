@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Repositories
 {
-    public interface IEnfermedadRepository
+    public interface IPacienteRepository
     {
-        Task<IEnumerable<Enfermedad>> Obtener();
-        Task<Enfermedad> ObtenerPorId();
+        Task<int> Add(Paciente paciente);
     }
 }

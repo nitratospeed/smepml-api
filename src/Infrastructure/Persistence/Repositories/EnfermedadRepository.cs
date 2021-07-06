@@ -19,21 +19,6 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public void Actualizar()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Agregar()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Eliminar()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Enfermedad>> Obtener()
         {
             return await _context.Enfermedades.ToListAsync();

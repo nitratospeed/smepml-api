@@ -1,4 +1,6 @@
-﻿using Application.Common.Interfaces.Services;
+﻿using Application.Common.Interfaces.Repositories;
+using Application.Common.Interfaces.Services;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Predicciones.Commands
 {
-    public class PrediccionCommand : IRequest<List<string>>
+    public class PrediccionCommand : IRequest<PrediccionDto>
     {
         public string NombresApellidos { get; set; }
         public int Edad { get; set; }
@@ -18,20 +20,50 @@ namespace Application.Core.Predicciones.Commands
         public List<string> Sintomas { get; set; }
     }
 
-    public class PrediccionCommandHandler : IRequestHandler<PrediccionCommand, List<string>>
+    public class PrediccionCommandHandler : IRequestHandler<PrediccionCommand, PrediccionDto>
     {
         private readonly IModelService service;
+        private readonly IDiagnosticoRepository diagnosticoRepository;
+        private readonly IPacienteRepository pacienteRepository;
 
-        public PrediccionCommandHandler(IModelService service)
+        public PrediccionCommandHandler(IModelService service, IPacienteRepository pacienteRepository, IDiagnosticoRepository diagnosticoRepository)
         {
             this.service = service;
+            this.diagnosticoRepository = diagnosticoRepository;
+            this.pacienteRepository = pacienteRepository;
         }
 
-        public async Task<List<string>> Handle(PrediccionCommand request, CancellationToken cancellationToken)
+        public async Task<PrediccionDto> Handle(PrediccionCommand request, CancellationToken cancellationToken)
         {
+            var paciente = new Paciente
+            {
+                NombresApellidos = request.NombresApellidos,
+                Edad = request.Edad,
+                Genero = request.Genero
+            };
+
+            await pacienteRepository.Add(paciente);
+
+
+            var diagnostico = new Diagnostico
+            {
+                PacienteId = paciente.Id,
+                Condiciones = string.Join(" ", request.Condiciones.ToArray()),
+                Preguntas = string.Join(" ", request.Preguntas.ToArray()),
+                Sintomas = string.Join(" ", request.Sintomas.ToArray())
+            };
+
+            await diagnosticoRepository.Add(diagnostico);
+
             var result = await service.ObtenerPrediccionAzure(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
 
-            return result;
+            var prediccionDto = new PrediccionDto
+            {
+                Enfermedades = result,
+                Recomendacion = ""
+            };
+
+            return prediccionDto;
         }
     }
 }

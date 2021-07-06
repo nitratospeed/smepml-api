@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces
 {
@@ -13,5 +15,7 @@ namespace Application.Common.Interfaces
         DbSet<Sintoma> Sintomas { get; set; }
         DbSet<Pregunta> Preguntas { get; set; }
         DbSet<Opcion> Opciones { get; set; }
+        DbSet<Diagnostico> Diagnosticos { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
