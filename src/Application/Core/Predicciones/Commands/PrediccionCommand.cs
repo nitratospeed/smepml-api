@@ -60,7 +60,7 @@ namespace Application.Core.Predicciones.Commands
             var prediccionDto = new PrediccionDto
             {
                 Enfermedades = result,
-                Recomendacion = ""
+                Recomendacion = "El paciente deberá seguir..."
             };
 
             return prediccionDto;
