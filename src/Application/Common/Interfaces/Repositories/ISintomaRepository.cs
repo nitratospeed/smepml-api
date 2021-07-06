@@ -11,6 +11,6 @@ namespace Application.Common.Interfaces.Repositories
     {
         Task<IEnumerable<Sintoma>> GetAll();
         Task<Sintoma> GetFilter(Expression<Func<Sintoma, bool>> filter);
-        Task<List<Sintoma>> GetSearch(Expression<Func<Sintoma, bool>> filter);
+        Task<IEnumerable<Sintoma>> GetSearch(Expression<Func<Sintoma, bool>> filter);
     }
 }

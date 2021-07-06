@@ -27,6 +27,8 @@ namespace Infrastructure
             services.AddScoped<ISintomaRepository, SintomaRepository>();
             services.AddScoped<IDiagnosticoRepository, DiagnosticoRepository>();
             services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped<IPreguntaRepository, PreguntaRepository>();
+            services.AddScoped<IOpcionRepository, OpcionRepository>();
             services.AddScoped<IModelService, ModelService>();
 
             return services;

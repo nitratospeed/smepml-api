@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -20,34 +21,32 @@ namespace Application.Core.Preguntas.Queries
     public class GetPreguntasQueryHandler : IRequestHandler<GetPreguntasQuery, List<PreguntaDto>>
     {
         private readonly IMapper mapper;
-        private readonly IAppDbContext context;
+        private readonly IPreguntaRepository preguntaRepository;
+        private readonly IOpcionRepository opcionRepository;
 
-        public GetPreguntasQueryHandler(IMapper mapper, IAppDbContext context)
+        public GetPreguntasQueryHandler(IMapper mapper, IPreguntaRepository preguntaRepository, IOpcionRepository opcionRepository)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.preguntaRepository = preguntaRepository;
+            this.opcionRepository = opcionRepository;
         }
 
         public async Task<List<PreguntaDto>> Handle(GetPreguntasQuery request, CancellationToken cancellationToken)
         {
-            var preguntas = await context.Preguntas.Where(x => x.SintomaId == request.SintomaId).ToListAsync();
+            var preguntas = await preguntaRepository.GetSearch(x=>x.SintomaId == request.SintomaId);
 
             var preguntasConOpciones = new List<PreguntaDto>();
 
             foreach (var item in preguntas)
             {
-                var opciones = 
-                    await context.Opciones
-                    .Where(x => x.PreguntaId == item.Id)
-                    .ProjectTo<OpcionDto>(mapper.ConfigurationProvider)
-                    .ToListAsync();
+                var opciones = await opcionRepository.GetSearch(x => x.PreguntaId == item.Id);
 
                 var preguntaConOpciones = new PreguntaDto
                 {
                     Descripcion = item.Descripcion,
                     Id = item.Id,
                     SintomaId = item.SintomaId,
-                    Opciones = opciones
+                    Opciones = opciones.AsQueryable().ProjectTo<OpcionDto>(mapper.ConfigurationProvider).ToList()
                 };
 
                 preguntasConOpciones.Add(preguntaConOpciones);

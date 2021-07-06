@@ -21,25 +21,29 @@ namespace Application.Core.Sintomas.Queries
 
     public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, List<SintomaDto>>
     {
-        private readonly IAppDbContext context;
         private readonly IMapper mapper;
+        private readonly ISintomaRepository sintomaRepository;
 
-        public GetSintomasQueryHandler(IAppDbContext context, IMapper mapper)
+        public GetSintomasQueryHandler(IMapper mapper, ISintomaRepository sintomaRepository)
         {
-            this.context = context;
             this.mapper = mapper;
+            this.sintomaRepository = sintomaRepository;
         }
 
         public async Task<List<SintomaDto>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
+            IEnumerable<Sintoma> result = new List<Sintoma>();
+
             if (request.Nombre is null)
             {
-                return await context.Sintomas.Include(x=>x.Preguntas).ThenInclude(x=>x.Opciones).ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToListAsync();
+                result = await sintomaRepository.GetAll();
             }
             else
             {
-                return await context.Sintomas.Include(x => x.Preguntas).ThenInclude(x => x.Opciones).Where(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower())).ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToListAsync();
+                result = await sintomaRepository.GetSearch(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()));
             }
+
+            return result.AsQueryable().ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToList();
         }
     }
 }

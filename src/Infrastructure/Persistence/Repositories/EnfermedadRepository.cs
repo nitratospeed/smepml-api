@@ -19,14 +19,9 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Enfermedad>> Obtener()
+        public async Task<IEnumerable<Enfermedad>> GetAll()
         {
             return await _context.Enfermedades.ToListAsync();
-        }
-
-        public Task<Enfermedad> ObtenerPorId()
-        {
-            throw new NotImplementedException();
         }
     }
 }

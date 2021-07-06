@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Enfermedades.Queries
 {
-    public class GetEnfermedadesQuery : IRequest<IEnumerable<Enfermedad>>
+    public class GetEnfermedadesQuery : IRequest<IEnumerable<EnfermedadDto>>
     {
     }
 
-    public class GetEnfermedadesQueryHandler : IRequestHandler<GetEnfermedadesQuery, IEnumerable<Enfermedad>>
+    public class GetEnfermedadesQueryHandler : IRequestHandler<GetEnfermedadesQuery, IEnumerable<EnfermedadDto>>
     {
         private readonly IEnfermedadRepository repository;
         private readonly IMapper mapper;
@@ -29,14 +29,10 @@ namespace Application.Core.Enfermedades.Queries
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<Enfermedad>> Handle(GetEnfermedadesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<EnfermedadDto>> Handle(GetEnfermedadesQuery request, CancellationToken cancellationToken)
         {
-            var result = await repository.Obtener();
-                //.Result.AsQueryable()
-                //.ProjectTo<EnfermedadDto>(mapper.ConfigurationProvider)
-                //.ToListAsync();
-
-            return result;
+            var result = await repository.GetAll();
+            return result.AsQueryable().ProjectTo<EnfermedadDto>(mapper.ConfigurationProvider).ToList();
         }
     }
 }

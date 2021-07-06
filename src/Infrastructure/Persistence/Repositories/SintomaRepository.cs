@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Sintoma>> GetAll()
         {
-            return await _context.Sintomas.ToListAsync();
+            return await _context.Sintomas.Include(x => x.Preguntas).ThenInclude(x => x.Opciones).ToListAsync();
         }
 
         public async Task<Sintoma> GetFilter(Expression<Func<Sintoma, bool>> filter)
@@ -30,9 +30,9 @@ namespace Infrastructure.Persistence.Repositories
             return await _context.Sintomas.AsNoTracking().FirstOrDefaultAsync(filter);
         }
 
-        public async Task<List<Sintoma>> GetSearch(Expression<Func<Sintoma, bool>> filter)
+        public async Task<IEnumerable<Sintoma>> GetSearch(Expression<Func<Sintoma, bool>> filter)
         {
-            return await _context.Sintomas.AsNoTracking().Where(filter).ToListAsync();
+            return await _context.Sintomas.AsNoTracking().Include(x => x.Preguntas).ThenInclude(x => x.Opciones).Where(filter).ToListAsync();
         }
     }
 }

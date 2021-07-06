@@ -8,7 +8,6 @@ namespace Application.Common.Interfaces.Repositories
 {
     public interface IEnfermedadRepository
     {
-        Task<IEnumerable<Enfermedad>> Obtener();
-        Task<Enfermedad> ObtenerPorId();
+        Task<IEnumerable<Enfermedad>> GetAll();
     }
 }
