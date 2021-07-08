@@ -8,6 +8,7 @@ namespace Application.Common.Interfaces.Repositories
 {
     public interface IDiagnosticoRepository
     {
+        Task<IEnumerable<Diagnostico>> GetAll();
         Task<int> Add(Diagnostico diagnostico);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,11 @@ namespace Infrastructure.Persistence.Repositories
         {
             this.context = context;
         }
+        public async Task<IEnumerable<Diagnostico>> GetAll()
+        {
+            return await context.Diagnosticos.Include(x=>x.Paciente).ToListAsync();
+        }
+
         public async Task<int> Add(Diagnostico diagnostico)
         {
             context.Diagnosticos.Add(diagnostico);

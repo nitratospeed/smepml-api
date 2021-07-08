@@ -42,6 +42,10 @@ namespace Application.Core.Predicciones.Commands
 
         public async Task<PrediccionDto> Handle(PrediccionCommand request, CancellationToken cancellationToken)
         {
+            var result = await service.GetPrediction(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
+
+            var recomend = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
+
             var paciente = new Paciente
             {
                 NombresApellidos = request.NombresApellidos,
@@ -51,20 +55,16 @@ namespace Application.Core.Predicciones.Commands
 
             await pacienteRepository.Add(paciente);
 
-
             var diagnostico = new Diagnostico
             {
                 PacienteId = paciente.Id,
-                Condiciones = string.Join(" ", request.Condiciones.ToArray()),
-                Preguntas = string.Join(" ", request.Preguntas.ToArray()),
-                Sintomas = string.Join(" ", request.Sintomas.ToArray())
+                Condiciones = string.Join(", ", request.Condiciones.ToArray()),
+                Preguntas = string.Join(", ", request.Preguntas.ToArray()),
+                Sintomas = string.Join(", ", request.Sintomas.ToArray()),
+                ResultadoMasPreciso = result.EnfermedadMasPrecisa
             };
 
             await diagnosticoRepository.Add(diagnostico);
-
-            var result = await service.GetPrediction(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
-
-            var recomend = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
 
             var prediccionDto = new PrediccionDto
             {

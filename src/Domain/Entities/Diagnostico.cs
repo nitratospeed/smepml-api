@@ -13,5 +13,6 @@ namespace Domain.Entities
         public string Condiciones { get; set; }
         public string Preguntas { get; set; }
         public string Sintomas { get; set; }
+        public string ResultadoMasPreciso { get; set; }
     }
 }

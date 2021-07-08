@@ -34,6 +34,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder
+                .Property(x => x.ResultadoMasPreciso);
+
+            builder
                 .HasOne(x => x.Paciente)
                 .WithMany(x => x.Diagnosticos)
                 .HasForeignKey(x => x.PacienteId);
