@@ -44,7 +44,14 @@ namespace Application.Core.Predicciones.Commands
         {
             var result = await service.GetPrediction(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
 
-            var recomend = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
+            var enfermedad = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
+
+            var recomend = "";
+
+            if (enfermedad != null)
+            {
+                recomend = enfermedad.Recomendacion;
+            }
 
             var paciente = new Paciente
             {
@@ -69,7 +76,7 @@ namespace Application.Core.Predicciones.Commands
             var prediccionDto = new PrediccionDto
             {
                 Enfermedades = result.Resultados,
-                Recomendacion = recomend.Recomendacion
+                Recomendacion = recomend
             };
 
             return prediccionDto;
