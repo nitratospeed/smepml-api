@@ -105,7 +105,7 @@ namespace Infrastructure.Services
                     }
 
                     predictionResponse.Resultados = top5enfermedades;
-                    predictionResponse.EnfermedadMasPrecisa = enfermedades[0].ScoredLabels;
+                    predictionResponse.EnfermedadMasPrecisa = top5enfermedades.FirstOrDefault();
 
                     return predictionResponse;
                 }
