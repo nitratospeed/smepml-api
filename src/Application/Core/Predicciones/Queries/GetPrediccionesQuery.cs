@@ -1,5 +1,11 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
+using Application.Common.Mappings;
+using Application.Common.Models;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,40 +15,31 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Predicciones.Queries
 {
-    public class GetPrediccionesQuery : IRequest<IEnumerable<GetPrediccionesDto>>
+    public class GetPrediccionesQuery : IRequest<PaginatedList<GetPrediccionesDto>>
     {
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 20;
     }
 
-    public class GetPrediccionesQueryHandler : IRequestHandler<GetPrediccionesQuery, IEnumerable<GetPrediccionesDto>>
+    public class GetPrediccionesQueryHandler : IRequestHandler<GetPrediccionesQuery, PaginatedList<GetPrediccionesDto>>
     {
-        private readonly IDiagnosticoRepository diagnosticoRepository;
+        private readonly IAppDbContext context;
+        private readonly IMapper mapper;
 
-        public GetPrediccionesQueryHandler(IDiagnosticoRepository diagnosticoRepository)
+        public GetPrediccionesQueryHandler(IAppDbContext context, IMapper mapper)
         {
-            this.diagnosticoRepository = diagnosticoRepository;
+            this.context = context;
+            this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetPrediccionesDto>> Handle(GetPrediccionesQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<GetPrediccionesDto>> Handle(GetPrediccionesQuery request, CancellationToken cancellationToken)
         {
-            var diagnosticos = await diagnosticoRepository.GetAll();
+            var result = await context.Diagnosticos.Include(x=>x.Paciente)
+                .OrderByDescending(x=>x.Id)
+                .ProjectTo<GetPrediccionesDto>(mapper.ConfigurationProvider)
+                .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-            var listaDto = new List<GetPrediccionesDto>();
-
-            foreach (var item in diagnosticos.ToList().OrderByDescending(x=>x.Id))
-            {
-                var dto = new GetPrediccionesDto
-                {
-                    Id = item.Id,
-                    Nombres = item.Paciente.NombresApellidos,
-                    Edad = item.Paciente.Edad,
-                    Genero = item.Paciente.Genero,
-                    Sintomas = item.Sintomas,
-                    ResultadoMasPreciso = item.ResultadoMasPreciso ?? ""
-                };
-                listaDto.Add(dto);
-            }
-
-            return listaDto;
+            return result;
         }
     }
 }

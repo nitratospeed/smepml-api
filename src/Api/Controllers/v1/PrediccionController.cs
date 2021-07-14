@@ -12,9 +12,9 @@ namespace Api.Controllers.v1
     public class PrediccionController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] GetPrediccionesQuery query)
         {
-            return Ok(await Mediator.Send(new GetPrediccionesQuery()));
+            return Ok(await Mediator.Send(query));
         }
 
         [HttpPost]
