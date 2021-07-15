@@ -1,7 +1,9 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,24 +29,27 @@ namespace Application.Core.Predicciones.Commands
         private readonly IDiagnosticoRepository diagnosticoRepository;
         private readonly IPacienteRepository pacienteRepository;
         private readonly IEnfermedadRepository enfermedadRepository;
+        private readonly IAppDbContext context;
 
         public PrediccionCommandHandler(
             IAzureMLService service,
             IPacienteRepository pacienteRepository,
             IDiagnosticoRepository diagnosticoRepository,
-            IEnfermedadRepository enfermedadRepository)
+            IEnfermedadRepository enfermedadRepository,
+            IAppDbContext context)
         {
             this.service = service;
             this.diagnosticoRepository = diagnosticoRepository;
             this.pacienteRepository = pacienteRepository;
             this.enfermedadRepository = enfermedadRepository;
+            this.context = context;
         }
 
         public async Task<PrediccionDto> Handle(PrediccionCommand request, CancellationToken cancellationToken)
         {
             var result = await service.GetPrediction(request.Genero, request.Edad, request.Condiciones, request.Sintomas);
 
-            var enfermedad = await enfermedadRepository.GetFilter(x => x.Nombre == result.EnfermedadMasPrecisa);
+            var enfermedad = await context.Enfermedades.FirstOrDefaultAsync(x=>x.Nombre.Contains(result.EnfermedadMasPrecisa));
 
             var recomend = "";
 
@@ -68,7 +73,7 @@ namespace Application.Core.Predicciones.Commands
                 Condiciones = string.Join(", ", request.Condiciones.ToArray()),
                 Preguntas = string.Join(", ", request.Preguntas.ToArray()),
                 Sintomas = string.Join(", ", request.Sintomas.ToArray()),
-                ResultadoMasPreciso = result.EnfermedadMasPrecisa
+                ResultadoMasPreciso = result.Resultados.FirstOrDefault()
             };
 
             await diagnosticoRepository.Add(diagnostico);
