@@ -8,19 +8,6 @@ namespace Domain.ValueObjects
 {
     public class Edad : ValueObject
     {
-        static Edad()
-        {
-        }
-
-        private Edad()
-        {
-        }
-
-        private Edad(int numeroEdad)
-        {
-            NumeroEdad = numeroEdad;
-        }
-
         public static Edad From(int numeroEdad)
         {
             var edad = new Edad { NumeroEdad = numeroEdad };

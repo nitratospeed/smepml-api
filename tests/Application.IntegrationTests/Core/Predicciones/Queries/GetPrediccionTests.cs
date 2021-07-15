@@ -1,4 +1,5 @@
 ﻿using Application.Core.Predicciones.Commands;
+using Application.Core.Predicciones.Queries;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -14,37 +15,15 @@ namespace Application.IntegrationTests.Core.Predicciones.Queries
         [Test]
         public async Task ShouldReturnPrediccion()
         {
-            var sintomas = new List<string>
-            {
-                "Distension",
-                "Dolor de estomago",
-                "Nauseas"
-            };
-
-            var condiciones = new List<string>
-            {
-                "Diabetes",
-                "Hipertension"
-            };
-
-            var preguntas = new List<string>
-            {
-                "¿Cuál es el nivel de su dolor?",
-                "¿Cuántos días tiene las náuseas?"
-            };
-
             //arrange
-            var command = new PrediccionCommand
+            var query = new GetPrediccionesQuery
             {
-                Edad = 26,
-                Genero = "M",
-                Condiciones = condiciones,
-                Preguntas = preguntas,
-                Sintomas = sintomas
+                PageNumber = 1,
+                PageSize = 5
             };
 
             //act
-            var result = await SendAsync(command);
+            var result = await SendAsync(query);
 
             //assert (lo q deberia cumplir)
             result.Should().NotBeNull();
