@@ -11,6 +11,7 @@ namespace Infrastructure.Persistence
     public class AppDbContext : DbContext, IAppDbContext
     {
         public DbSet<Enfermedad> Enfermedades { get; set; }
+        public DbSet<Examen> Examenes { get; set; }
         public DbSet<Sintoma> Sintomas { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Pregunta> Preguntas { get; set; }

@@ -7,15 +7,14 @@ using System.Text;
 
 namespace Application.Core.Enfermedades.Queries
 {
-    public class EnfermedadDto : IMapFrom<Enfermedad>
+    public class ExamenDto : IMapFrom<Examen>
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public List<ExamenDto> Examenes { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Enfermedad, EnfermedadDto>();
+            profile.CreateMap<Examen, ExamenDto>();
         }
     }
 }

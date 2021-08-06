@@ -19,7 +19,7 @@ namespace Application.Core.Predicciones.Queries
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Diagnostico, GetPrediccionesDto>()
-                .ForMember(x => x.Nombres, y => y.MapFrom(z => z.Paciente.NombresApellidos))
+                .ForMember(x => x.Nombres, y => y.MapFrom(z => z.Paciente.Nombres))
                 .ForMember(x => x.Edad, y => y.MapFrom(z => z.Paciente.Edad))
                 .ForMember(x => x.Genero, y => y.MapFrom(z => z.Paciente.Genero));
         }

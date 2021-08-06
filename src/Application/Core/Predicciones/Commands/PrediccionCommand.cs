@@ -60,7 +60,7 @@ namespace Application.Core.Predicciones.Commands
 
             var paciente = new Paciente
             {
-                NombresApellidos = request.NombresApellidos,
+                Nombres = request.NombresApellidos,
                 Edad = request.Edad,
                 Genero = request.Genero
             };

@@ -2,6 +2,7 @@ using Api.Filters;
 using Application;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
@@ -43,7 +44,7 @@ namespace Api
             services.AddControllers(options =>
             {
                 options.Filters.Add<BaseApiResponseFilterAttribute>();
-            });
+            }).AddFluentValidation();
 
             services.AddCors(options =>
             {

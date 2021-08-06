@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Enfermedad>> GetAll()
         {
-            return await _context.Enfermedades.ToListAsync();
+            return await _context.Enfermedades.Include(x => x.Examenes).ToListAsync();
         }
 
         public async Task<Enfermedad> GetFilter(Expression<Func<Enfermedad, bool>> filter)

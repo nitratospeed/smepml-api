@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class Enfermedad
+    public class Examen
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public string Recomendacion { get; set; }
-        public List<Examen> Examenes { get; set; }
+        public int EnfermedadId { get; set; }
+        public Enfermedad Enfermedad { get; set; }
     }
 }

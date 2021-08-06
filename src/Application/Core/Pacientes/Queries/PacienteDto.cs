@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Application.Common.Mappings;
+using AutoMapper;
+using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Entities
+namespace Application.Core.Pacientes.Queries
 {
-    public class Paciente
+    public class PacienteDto : IMapFrom<Paciente>
     {
         public int Id { get; set; }
         public string Apellidos { get; set; }
@@ -16,7 +19,10 @@ namespace Domain.Entities
         public string Direccion { get; set; }
         public int Edad { get; set; }
         public string Genero { get; set; }
-        public bool Estado { get; set; }
-        public List<Diagnostico> Diagnosticos { get; set; }
+        //public List<Diagnostico> Diagnosticos { get; set; }
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Paciente, PacienteDto>();
+        }
     }
 }

@@ -22,9 +22,38 @@ namespace Infrastructure.Persistence.Configurations
                 .UseIdentityColumn();
 
             builder
-                .Property(x => x.NombresApellidos)
+                .Property(x => x.Apellidos)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
+
+            builder
+                .Property(x => x.Nombres)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder
+                .Property(x => x.Dni)
+                .IsRequired()
+                .HasMaxLength(8);
+
+            builder
+                .Property(x => x.Celular)
+                .IsRequired()
+                .HasMaxLength(9);
+
+            builder
+                .Property(x => x.FechaNacimiento)
+                .IsRequired();
+
+            builder
+                .Property(x => x.Correo)
+                .IsRequired()
+                .HasMaxLength(250);
+
+            builder
+                .Property(x => x.Direccion)
+                .IsRequired()
+                .HasMaxLength(500);
 
             builder
                 .Property(x => x.Edad)
@@ -34,6 +63,10 @@ namespace Infrastructure.Persistence.Configurations
                 .Property(x => x.Genero)
                 .IsRequired()
                 .HasMaxLength(1);
+
+            builder
+                .Property(x => x.Estado)
+                .IsRequired();
         }
     }
 }
