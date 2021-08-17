@@ -1,4 +1,4 @@
-﻿using Api;
+﻿using WebApi;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;

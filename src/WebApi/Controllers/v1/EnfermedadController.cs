@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Controllers.v1
+namespace WebApi.Controllers.v1
 {
     public class EnfermedadController : BaseApiController
     {

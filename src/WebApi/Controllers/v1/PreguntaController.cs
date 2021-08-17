@@ -1,4 +1,4 @@
-﻿using Application.Core.Sintomas.Queries;
+﻿using Application.Core.Preguntas.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Controllers.v1
+namespace WebApi.Controllers.v1
 {
-    public class SintomaController : BaseApiController
+    public class PreguntaController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetSintomasQuery query)
+        public async Task<IActionResult> Get([FromQuery] GetPreguntasQuery query)
         {
             return Ok(await Mediator.Send(query));
         }

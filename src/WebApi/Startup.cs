@@ -1,4 +1,4 @@
-using Api.Filters;
+using WebApi.Filters;
 using Application;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api
+namespace WebApi
 {
     public class Startup
     {
