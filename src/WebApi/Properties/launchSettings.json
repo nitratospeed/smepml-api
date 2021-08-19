@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Api": {
+    "WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",
