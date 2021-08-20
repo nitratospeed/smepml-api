@@ -30,6 +30,7 @@ namespace Infrastructure
             services.AddScoped<IPreguntaRepository, PreguntaRepository>();
             services.AddScoped<IOpcionRepository, OpcionRepository>();
             services.AddScoped<IAzureMLService, AzureMLService>();
+            services.AddScoped<IMailKitService, MailKitService>();
 
             return services;
         }

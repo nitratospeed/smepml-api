@@ -1,25 +1,14 @@
 using WebApi.Filters;
 using Application;
-using Application.Common.Interfaces.Repositories;
-using Application.Common.Interfaces.Services;
 using FluentValidation.AspNetCore;
 using Infrastructure;
-using Infrastructure.Persistence;
-using Infrastructure.Persistence.Repositories;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WebApi
 {
@@ -41,6 +30,10 @@ namespace WebApi
 
             services.AddInfrastructure(Configuration);
 
+            //services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddHttpContextAccessor();
+
             services.AddControllers(options =>
             {
                 options.Filters.Add<BaseApiResponseFilterAttribute>();
@@ -58,7 +51,43 @@ namespace WebApi
                 });
             });
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "SMEPML API",
+                });
+
+                //var securityScheme = new OpenApiSecurityScheme
+                //{
+                //    Name = "JWT Authentication",
+                //    Description = "Enter JWT Bearer token **_only_**",
+                //    In = ParameterLocation.Header,
+                //    Type = SecuritySchemeType.Http,
+                //    Scheme = "bearer",
+                //    BearerFormat = "JWT",
+                //    Reference = new OpenApiReference
+                //    {
+                //        Id = JwtBearerDefaults.AuthenticationScheme,
+                //        Type = ReferenceType.SecurityScheme
+                //    }
+                //};
+
+                //c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    {securityScheme, new string[] { }}
+                //});
+            });
+
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //.AddJwtBearer(options =>
+            //{
+            //    options.Audience = "/";
+            //    options.Authority = "/usuario/auth";
+            //});
+
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
@@ -99,6 +128,8 @@ namespace WebApi
             app.UseRouting();
 
             app.UseCors(AllowSpecificOrigins);
+
+            //app.UseAuthentication();
 
             app.UseAuthorization();
 

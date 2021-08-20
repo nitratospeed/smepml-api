@@ -19,6 +19,7 @@ namespace Application.Common.Interfaces
         DbSet<Diagnostico> Diagnosticos { get; set; }
         DbSet<Usuario> Usuarios { get; set; }
         DbSet<Incidencia> Incidencias { get; set; }
+        DbSet<Configuracion> Configuraciones { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

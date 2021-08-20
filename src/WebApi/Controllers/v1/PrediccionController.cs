@@ -22,5 +22,11 @@ namespace WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(command));
         }
+
+        [HttpPost("SendEmail")]
+        public async Task<IActionResult> SendEmail(SendEmailPrediccionCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
     }
 }

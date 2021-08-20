@@ -45,5 +45,11 @@ namespace WebApi.Controllers.v1
         {
             return Ok(await Mediator.Send(new DeleteUsuarioCommand { Id = id }));
         }
+
+        [HttpPost("auth")]
+        public async Task<IActionResult> Auth(AuthUsuarioCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
     }
 }

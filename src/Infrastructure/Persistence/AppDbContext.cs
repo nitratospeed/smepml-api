@@ -19,6 +19,7 @@ namespace Infrastructure.Persistence
         public DbSet<Diagnostico> Diagnosticos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Incidencia> Incidencias { get; set; }
+        public DbSet<Configuracion> Configuraciones { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
