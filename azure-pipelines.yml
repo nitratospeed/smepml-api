@@ -38,5 +38,5 @@ steps:
     azureSubscription: 'Suscripción de Azure 1(1)(c14171ea-74a9-4410-80a9-31c4e66d2770)'
     appType: 'webApp'
     appName: 'smepml-api'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/*.zip'
     deploymentMethod: 'auto'
