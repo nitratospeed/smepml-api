@@ -33,10 +33,10 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: AzureWebApp@1
+- task: AzureRmWebAppDeployment@4
   inputs:
-    azureSubscription: 'Suscripción de Azure 1(1)(c14171ea-74a9-4410-80a9-31c4e66d2770)'
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Suscripción de Azure 1(2)(c14171ea-74a9-4410-80a9-31c4e66d2770)'
     appType: 'webApp'
-    appName: 'smepml-api'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
+    WebAppName: 'smepml-api'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
