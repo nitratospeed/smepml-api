@@ -11,7 +11,8 @@ namespace Application.Core.Usuarios.Commands
         {
             RuleFor(x => x.Correo)
                .MaximumLength(250)
-               .NotEmpty();
+               .NotEmpty()
+               .EmailAddress();
 
             RuleFor(x => x.Contrasena)
                .MaximumLength(250)

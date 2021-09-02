@@ -5,13 +5,10 @@ using System.Text;
 
 namespace Application.Core.Usuarios.Commands
 {
-    public class UpdateUsuarioValidator : AbstractValidator<UpdateUsuarioCommand>
+    public class AuthUsuarioValidator : AbstractValidator<AuthUsuarioCommand>
     {
-        public UpdateUsuarioValidator()
+        public AuthUsuarioValidator()
         {
-            RuleFor(x => x.Id)
-               .NotEmpty();
-
             RuleFor(x => x.Correo)
                .MaximumLength(250)
                .NotEmpty()
@@ -19,14 +16,6 @@ namespace Application.Core.Usuarios.Commands
 
             RuleFor(x => x.Contrasena)
                .MaximumLength(250)
-               .NotEmpty();
-
-            RuleFor(x => x.NombreCompleto)
-               .MaximumLength(250)
-               .NotEmpty();
-
-            RuleFor(x => x.Perfil)
-               .IsInEnum()
                .NotEmpty();
         }
     }

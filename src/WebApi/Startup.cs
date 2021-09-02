@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi
 {
@@ -36,6 +37,7 @@ namespace WebApi
 
             services.AddControllers(options =>
             {
+                options.Filters.Add<ApiExceptionFilterAttribute>();
                 options.Filters.Add<BaseApiResponseFilterAttribute>();
             }).AddFluentValidation();
 
@@ -50,6 +52,13 @@ namespace WebApi
                         .AllowAnyMethod();
                 });
             });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddSwaggerGen(c =>
             {
@@ -86,9 +95,7 @@ namespace WebApi
             //{
             //    options.Audience = "/";
             //    options.Authority = "/usuario/auth";
-            //});
-
-            services.AddRouting(options => options.LowercaseUrls = true);
+            //});        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
