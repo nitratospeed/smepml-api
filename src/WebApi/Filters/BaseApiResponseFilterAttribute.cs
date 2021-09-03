@@ -16,7 +16,7 @@ namespace WebApi.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            if (context.Result is ObjectResult objectResult)
+            if (context.Result != null && context.Result is ObjectResult objectResult)
             {
                 objectResult.Value = new BaseApiResponse<object>
                 {

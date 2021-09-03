@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Application.Common.Exceptions
 {
@@ -10,17 +10,15 @@ namespace Application.Common.Exceptions
         public ValidationException()
             : base("One or more validation failures have occurred.")
         {
-            Errors = new List<ValidationFailure>();
+            Errors = new string[0];
         }
 
         public ValidationException(IEnumerable<ValidationFailure> failures)
             : this()
         {
-            Errors = failures;
-            //.GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-            //.ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+            Errors = failures.Select(x=>x.ErrorMessage).ToArray(); ;
         }
 
-        public IEnumerable<ValidationFailure> Errors { get; }
+        public string[] Errors { get; }
     }
 }

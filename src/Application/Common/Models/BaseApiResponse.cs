@@ -15,6 +15,6 @@ namespace Application.Common.Models
 
         public string Exception { get; set; }
 
-        public IEnumerable<ValidationFailure> ValidationErrors { get; set; }
+        public string[] ValidationErrors { get; set; }
     }
 }

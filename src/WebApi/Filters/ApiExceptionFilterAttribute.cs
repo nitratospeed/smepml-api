@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace WebApi.Filters
 
         private string CustomMessage = "";
 
-        private IEnumerable<ValidationFailure> CustomValidationMessage;
+        private string[] CustomValidationMessage;
 
         public ApiExceptionFilterAttribute()
         {
@@ -31,7 +32,6 @@ namespace WebApi.Filters
                 { nameof(NotFoundException), HandleNotFoundException },
                 //{ nameof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 //{ nameof(ForbiddenAccessException), HandleForbiddenAccessException },
-                //{ nameof(CustomException), HandleCustomException },
             };
         }
 
@@ -60,8 +60,6 @@ namespace WebApi.Filters
 
         private void HandleValidationException(ExceptionContext context)
         {
-            //var exception = ((FluentValidation.ValidationException)context.Exception).Errors;
-
             var exception = context.Exception as ValidationException;
 
             CustomType = "ValidationException";
@@ -116,23 +114,7 @@ namespace WebApi.Filters
 
         private void HandleUnknownException(ExceptionContext context)
         {
-            var details = new ProblemDetails
-            {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "An error occurred while processing your request.",
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
-            };
-
             CustomType = "UnknownException";
-
-            CustomMessage = "Error " + details.Status.ToString() + ": " + details.Title;
-
-            context.ExceptionHandled = true;
-        }
-
-        private void HandleCustomException(ExceptionContext context)
-        {
-            CustomType = "CustomException";
 
             CustomMessage = context.Exception.Message;
 
