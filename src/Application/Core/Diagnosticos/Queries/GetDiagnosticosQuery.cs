@@ -4,6 +4,7 @@ using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Application.Core.Diagnosticos.Queries
 
         public async Task<PaginatedList<DiagnosticoDto>> Handle(GetDiagnosticosQuery request, CancellationToken cancellationToken)
         {
-            var result = await context.Diagnosticos
+            var result = await context.Diagnosticos.Include(x=>x.Paciente)
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<DiagnosticoDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);

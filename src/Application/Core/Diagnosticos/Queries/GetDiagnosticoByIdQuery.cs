@@ -32,23 +32,14 @@ namespace Application.Core.Diagnosticos.Queries
 
         public async Task<DiagnosticoDto> Handle(GetDiagnosticoByIdQuery request, CancellationToken cancellationToken)
         {
-            var entity = await context.Diagnosticos.FindAsync(request.Id);
+            var entity = await context.Diagnosticos.Include(x => x.Paciente).FirstOrDefaultAsync(x=>x.Id == request.Id);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Diagnostico), request.Id);
             }
 
-            var dto = new DiagnosticoDto
-            {
-                Id = entity.Id,
-                Condiciones = entity.Condiciones,
-                PacienteId = entity.PacienteId,
-                Preguntas = entity.Preguntas,
-                ResultadoMasPreciso = entity.ResultadoMasPreciso,
-                Sintomas = entity.Sintomas,
-                Resultados = entity.Resultados
-            };
+            var dto = mapper.Map<DiagnosticoDto>(entity);
 
             return dto;
         }

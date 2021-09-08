@@ -13,6 +13,12 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(query));
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await Mediator.Send(new GetDiagnosticoByIdQuery { Id = id }));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateDiagnosticoCommand command)
         {

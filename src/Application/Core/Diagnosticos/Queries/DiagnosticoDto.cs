@@ -1,4 +1,5 @@
 ﻿using Application.Common.Mappings;
+using Application.Core.Pacientes.Queries;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -11,6 +12,7 @@ namespace Application.Core.Diagnosticos.Queries
     {
         public int Id { get; set; }
         public int PacienteId { get; set; }
+        public PacienteDto Paciente { get; set; }
         public string Condiciones { get; set; }
         public string Sintomas { get; set; }
         public string Preguntas { get; set; }
