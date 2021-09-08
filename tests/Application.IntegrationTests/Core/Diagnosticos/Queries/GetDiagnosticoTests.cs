@@ -1,22 +1,18 @@
-﻿using Application.Core.Predicciones.Commands;
-using Application.Core.Predicciones.Queries;
+﻿using Application.Core.Diagnosticos.Queries;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.IntegrationTests.Core.Predicciones.Queries
+namespace Application.IntegrationTests.Core.Diagnosticos.Queries
 {
     using static Testing;
-    public class GetPrediccionTests
+    public class GetDiagnosticoTests
     {
         [Test]
-        public async Task ShouldReturnPrediccion()
+        public async Task ShouldReturnDiagnostico()
         {
             //arrange
-            var query = new GetPrediccionesQuery
+            var query = new GetDiagnosticosQuery
             {
                 PageNumber = 1,
                 PageSize = 5

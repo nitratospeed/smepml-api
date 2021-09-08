@@ -6,42 +6,40 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Core.Predicciones.Commands
+namespace Application.Core.Diagnosticos.Commands
 {
-    public class SendEmailPrediccionCommand : IRequest<bool>
+    public class EmailDiagnosticoCommand : IRequest<bool>
     {
-        public int UsuarioId { get; set; }
+        public int Id { get; set; }
     }
-
-    public class SendEmailPrediccionCommandHandler : IRequestHandler<SendEmailPrediccionCommand, bool>
+    public class EmailDiagnosticoCommandHandler : IRequestHandler<EmailDiagnosticoCommand, bool>
     {
         private readonly IMailKitService mailKitService;
         private readonly IAppDbContext context;
 
-        public SendEmailPrediccionCommandHandler(IMailKitService mailKitService, IAppDbContext context)
+        public EmailDiagnosticoCommandHandler(IMailKitService mailKitService, IAppDbContext context)
         {
             this.mailKitService = mailKitService;
             this.context = context;
         }
 
-        public async Task<bool> Handle(SendEmailPrediccionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(EmailDiagnosticoCommand request, CancellationToken cancellationToken)
         {
-            var usuario = await context.Usuarios.FindAsync(request.UsuarioId);
+            var entity = await context.Diagnosticos.FindAsync(request.Id);
 
-            if (usuario == null)
+            if (entity == null)
             {
-                throw new NotFoundException(nameof(Usuario), request.UsuarioId);
+                throw new NotFoundException(nameof(Diagnostico), request.Id);
             }
 
             var correoDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "CorreoDe");
             var contrasenaDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "ContrasenaDe");
 
-            return await mailKitService.SendEmail(usuario.Correo, correoDe.Value, contrasenaDe.Value);
+            return await mailKitService.SendEmail(entity.Paciente.Correo, correoDe.Value, contrasenaDe.Value);
         }
     }
 }

@@ -26,15 +26,38 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder
-                .Property(x => x.Preguntas)
-                .IsRequired();
-
-            builder
                 .Property(x => x.Sintomas)
                 .IsRequired();
 
             builder
-                .Property(x => x.ResultadoMasPreciso);
+                .Property(x => x.Preguntas)
+                .IsRequired();
+
+            builder
+                .Property(x => x.Resultados)
+                .IsRequired();
+
+            builder
+                .Property(x => x.ResultadoMasPreciso)
+                .IsRequired();
+
+            builder
+                .Property(x => x.CreadoEn)
+                .IsRequired();
+
+            builder
+                .Property(x => x.CreadoPor)
+                .IsRequired()
+                .HasMaxLength(250);
+
+            builder
+                .Property(x => x.ActualizadoEn)
+                .IsRequired(false);
+
+            builder
+                .Property(x => x.ActualizadoPor)
+                .IsRequired(false)
+                .HasMaxLength(250);
 
             builder
                 .HasOne(x => x.Paciente)

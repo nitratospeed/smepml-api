@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces.Services;
+using Application.Core.Diagnosticos.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,9 @@ namespace Infrastructure.Services
 {
     public class AzureMLService : IAzureMLService
     {
-        public async Task<GetPredictionResponse> GetPrediction(string Sexo, int Edad, List<string> Condiciones, List<string> Sintomas)
+        public async Task<(string[], string)> GetPrediction(string sexo, int edad, string[] condiciones, string[] sintomas, string[] preguntas)
         {
-            var predictionResponse = new GetPredictionResponse();
-
-            string sintomas = string.Join(" ", Sintomas.ToArray());
+            string sintomasJoined = string.Join(" ", sintomas);
 
             var handler = new HttpClientHandler()
             {
@@ -41,7 +40,7 @@ namespace Infrastructure.Services
                                         "ENFERMEDAD", ""
                                     },
                                     {
-                                        "SINTOMA", sintomas
+                                        "SINTOMA", sintomasJoined
                                     },
                                 }
                             }
@@ -104,10 +103,10 @@ namespace Infrastructure.Services
                         top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
                     }
 
-                    predictionResponse.Resultados = top5enfermedades;
-                    predictionResponse.EnfermedadMasPrecisa = enfermedades[0].ScoredLabels;
+                    var resultado = top5enfermedades.ToArray();
+                    var resultadoMasPreciso = enfermedades[0].ScoredLabels;
 
-                    return predictionResponse;
+                    return (resultado, resultadoMasPreciso);
                 }
                 else
                 {
@@ -119,7 +118,7 @@ namespace Infrastructure.Services
 
                     string responseContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(responseContent);
-                    return null;
+                    return (null,"");
                 }
             }
         }
