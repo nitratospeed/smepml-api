@@ -11,6 +11,7 @@ namespace Application.Core.Enfermedades.Queries
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Recomendacion { get; set; }
         public List<ExamenDto> Examenes { get; set; }
 
         public void Mapping(Profile profile)

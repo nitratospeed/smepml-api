@@ -1,8 +1,6 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
 using Infrastructure.Persistence;
-using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,12 +21,6 @@ namespace Infrastructure
                         b => b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
 
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
-            services.AddScoped<IEnfermedadRepository, EnfermedadRepository>();
-            services.AddScoped<ISintomaRepository, SintomaRepository>();
-            services.AddScoped<IDiagnosticoRepository, DiagnosticoRepository>();
-            services.AddScoped<IPacienteRepository, PacienteRepository>();
-            services.AddScoped<IPreguntaRepository, PreguntaRepository>();
-            services.AddScoped<IOpcionRepository, OpcionRepository>();
             services.AddScoped<IAzureMLService, AzureMLService>();
             services.AddScoped<IMailKitService, MailKitService>();
 

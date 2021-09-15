@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Repositories;
+using Application.Common.Mappings;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -16,34 +16,27 @@ namespace Application.Core.Sintomas.Queries
 {
     public class GetSintomasQuery : IRequest<List<SintomaDto>>
     {
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = "";
     }
 
     public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, List<SintomaDto>>
     {
         private readonly IMapper mapper;
-        private readonly ISintomaRepository sintomaRepository;
+        private readonly IAppDbContext context;
 
-        public GetSintomasQueryHandler(IMapper mapper, ISintomaRepository sintomaRepository)
+        public GetSintomasQueryHandler(IMapper mapper, IAppDbContext context)
         {
             this.mapper = mapper;
-            this.sintomaRepository = sintomaRepository;
+            this.context = context;
         }
 
         public async Task<List<SintomaDto>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Sintoma> result = new List<Sintoma>();
+            var result = await context.Sintomas
+                .Where(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()) || request.Nombre == "")
+                .ProjectToListAsync<SintomaDto>(mapper.ConfigurationProvider);
 
-            if (request.Nombre is null)
-            {
-                result = await sintomaRepository.GetAll();
-            }
-            else
-            {
-                result = await sintomaRepository.GetSearch(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()));
-            }
-
-            return result.AsQueryable().ProjectTo<SintomaDto>(mapper.ConfigurationProvider).ToList();
+            return result;
         }
     }
 }

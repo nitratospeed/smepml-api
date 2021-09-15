@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Repositories;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -21,32 +20,30 @@ namespace Application.Core.Preguntas.Queries
     public class GetPreguntasQueryHandler : IRequestHandler<GetPreguntasQuery, List<PreguntaDto>>
     {
         private readonly IMapper mapper;
-        private readonly IPreguntaRepository preguntaRepository;
-        private readonly IOpcionRepository opcionRepository;
+        private readonly IAppDbContext context;
 
-        public GetPreguntasQueryHandler(IMapper mapper, IPreguntaRepository preguntaRepository, IOpcionRepository opcionRepository)
+        public GetPreguntasQueryHandler(IMapper mapper, IAppDbContext context)
         {
             this.mapper = mapper;
-            this.preguntaRepository = preguntaRepository;
-            this.opcionRepository = opcionRepository;
+            this.context = context;
         }
 
         public async Task<List<PreguntaDto>> Handle(GetPreguntasQuery request, CancellationToken cancellationToken)
         {
-            var preguntas = await preguntaRepository.GetSearch(x=>x.SintomaId == request.SintomaId);
+            var preguntas = await context.Preguntas.Where(x=>x.SintomaId == request.SintomaId).ToListAsync();
 
             var preguntasConOpciones = new List<PreguntaDto>();
 
             foreach (var item in preguntas)
             {
-                var opciones = await opcionRepository.GetSearch(x => x.PreguntaId == item.Id);
+                var opciones = await context.Opciones.Where(x => x.PreguntaId == item.Id).ToListAsync();
 
                 var preguntaConOpciones = new PreguntaDto
                 {
                     Descripcion = item.Descripcion,
                     Id = item.Id,
                     SintomaId = item.SintomaId,
-                    Opciones = opciones.AsQueryable().ProjectTo<OpcionDto>(mapper.ConfigurationProvider).ToList()
+                    Opciones = mapper.Map<List<OpcionDto>>(opciones)
                 };
 
                 preguntasConOpciones.Add(preguntaConOpciones);
