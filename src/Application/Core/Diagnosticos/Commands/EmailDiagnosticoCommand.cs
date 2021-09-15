@@ -29,7 +29,7 @@ namespace Application.Core.Diagnosticos.Commands
 
         public async Task<bool> Handle(EmailDiagnosticoCommand request, CancellationToken cancellationToken)
         {
-            var entity = await context.Diagnosticos.FindAsync(request.Id);
+            var entity = await context.Diagnosticos.Include(x=>x.Paciente).FirstOrDefaultAsync(x=>x.Id == request.Id);
 
             if (entity == null)
             {
