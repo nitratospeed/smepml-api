@@ -7,9 +7,9 @@ namespace WebApi.Controllers.v1
     public class SintomaController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetSintomasQuery query)
+        public async Task<IActionResult> Get()
         {
-            return Ok(await Mediator.Send(query));
+            return Ok(await Mediator.Send(new GetSintomasQuery { }));
         }
     }
 }
