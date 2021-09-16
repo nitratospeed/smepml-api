@@ -11,10 +11,10 @@ namespace WebApi.Controllers.v1
 {
     public class EnfermedadController : BaseApiController
     {
-        [HttpGet("{name}")]
-        public async Task<IActionResult> GetById(string name)
+        [HttpGet("{nombre}")]
+        public async Task<IActionResult> GetByNombre(string nombre)
         {
-            return Ok(await Mediator.Send(new GetEnfermedadByNameQuery { Nombre = name }));
+            return Ok(await Mediator.Send(new GetEnfermedadByNombreQuery { Nombre = nombre }));
         }
     }
 }

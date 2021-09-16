@@ -16,7 +16,6 @@ namespace Application.Core.Sintomas.Queries
 {
     public class GetSintomasQuery : IRequest<List<SintomaDto>>
     {
-        public string Nombre { get; set; } = "";
     }
 
     public class GetSintomasQueryHandler : IRequestHandler<GetSintomasQuery, List<SintomaDto>>
@@ -33,7 +32,6 @@ namespace Application.Core.Sintomas.Queries
         public async Task<List<SintomaDto>> Handle(GetSintomasQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Sintomas
-                .Where(x => x.Nombre.ToLower().Contains(request.Nombre.ToLower()) || request.Nombre == "")
                 .ProjectToListAsync<SintomaDto>(mapper.ConfigurationProvider);
 
             return result;

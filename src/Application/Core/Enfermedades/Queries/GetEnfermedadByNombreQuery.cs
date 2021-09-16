@@ -15,25 +15,25 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Enfermedades.Queries
 {
-    public class GetEnfermedadByNameQuery : IRequest<EnfermedadDto>
+    public class GetEnfermedadByNombreQuery : IRequest<EnfermedadDto>
     {
         public string Nombre { get; set; }
     }
 
-    public class GetEnfermedadByNameQueryHandler : IRequestHandler<GetEnfermedadByNameQuery, EnfermedadDto>
+    public class GetEnfermedadByNombreQueryHandler : IRequestHandler<GetEnfermedadByNombreQuery, EnfermedadDto>
     {
         private readonly IAppDbContext context;
         private readonly IMapper mapper;
 
-        public GetEnfermedadByNameQueryHandler(IAppDbContext context, IMapper mapper)
+        public GetEnfermedadByNombreQueryHandler(IAppDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
-        public async Task<EnfermedadDto> Handle(GetEnfermedadByNameQuery request, CancellationToken cancellationToken)
+        public async Task<EnfermedadDto> Handle(GetEnfermedadByNombreQuery request, CancellationToken cancellationToken)
         {
-            var enfermedad = await context.Enfermedades.FirstOrDefaultAsync(x => x.Nombre.ToLower() == request.Nombre.ToLower());
+            var enfermedad = await context.Enfermedades.Include(x=>x.Examenes).FirstOrDefaultAsync(x => x.Nombre.ToLower() == request.Nombre.ToLower());
 
             if (enfermedad == null)
             {

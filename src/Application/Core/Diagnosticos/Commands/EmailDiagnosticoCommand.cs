@@ -39,7 +39,7 @@ namespace Application.Core.Diagnosticos.Commands
             var correoDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "CorreoDe");
             var contrasenaDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "ContrasenaDe");
 
-            return await mailKitService.SendEmail(entity.Paciente.Correo, correoDe.Value, contrasenaDe.Value);
+            return await mailKitService.SendEmail(entity, correoDe.Value, contrasenaDe.Value);
         }
     }
 }
