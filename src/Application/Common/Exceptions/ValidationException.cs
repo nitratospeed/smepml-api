@@ -16,7 +16,7 @@ namespace Application.Common.Exceptions
         public ValidationException(IEnumerable<ValidationFailure> failures)
             : this()
         {
-            Errors = failures.Select(x=>x.ErrorMessage).ToArray(); ;
+            Errors = failures.Select(x => x.ErrorMessage).ToArray(); ;
         }
 
         public string[] Errors { get; }

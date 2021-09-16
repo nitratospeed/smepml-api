@@ -3,10 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +28,7 @@ namespace Application.Core.Incidencias.Queries
         public async Task<IncidenciaDto> Handle(GetIncidenciaByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Incidencias
-                .Where(x=>x.Id == request.Id)
+                .Where(x => x.Id == request.Id)
                 .ProjectTo<IncidenciaDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 

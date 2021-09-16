@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Core.Pacientes.Commands
 {
@@ -37,7 +34,7 @@ namespace Application.Core.Pacientes.Commands
                 .NotEmpty();
 
             RuleFor(x => x.Edad)
-                .InclusiveBetween(18,75)
+                .InclusiveBetween(18, 75)
                 .NotEmpty();
 
             RuleFor(x => x.Genero)

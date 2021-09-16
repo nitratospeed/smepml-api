@@ -1,17 +1,13 @@
-﻿using WebApi;
-using Infrastructure.Persistence;
+﻿using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using WebApi;
 
 namespace Application.IntegrationTests
 {

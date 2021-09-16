@@ -34,7 +34,7 @@ namespace WebApi.Controllers.v1
         [HttpPost("email/{id}")]
         public async Task<IActionResult> Email(int id)
         {
-            return Ok(await Mediator.Send(new EmailDiagnosticoCommand {  Id = id }));
+            return Ok(await Mediator.Send(new EmailDiagnosticoCommand { Id = id }));
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces.Services;
-using Application.Core.Diagnosticos.Commands;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,10 +49,10 @@ namespace Infrastructure.Services
                     {
                     }
                 };
-                
+
 
                 const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", apiKey);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 client.BaseAddress = new Uri("http://95079e12-7942-4f8c-8fde-43a58117e83e.centralus.azurecontainer.io/score");
 
                 // WARNING: The 'await' statement below can result in a deadlock
@@ -98,7 +97,7 @@ namespace Infrastructure.Services
                     foreach (var item in enfermedadesScore.OrderByDescending(x => x.Value).Take(5))
                     {
                         var percDouble = double.Parse(item.Value);
-                        var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_"," ");
+                        var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_", " ");
 
                         top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
                     }
@@ -118,7 +117,7 @@ namespace Infrastructure.Services
 
                     string responseContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(responseContent);
-                    return (null,"");
+                    return (null, "");
                 }
             }
         }

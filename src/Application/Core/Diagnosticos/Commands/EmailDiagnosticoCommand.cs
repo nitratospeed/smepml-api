@@ -4,9 +4,6 @@ using Application.Common.Interfaces.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +26,7 @@ namespace Application.Core.Diagnosticos.Commands
 
         public async Task<bool> Handle(EmailDiagnosticoCommand request, CancellationToken cancellationToken)
         {
-            var entity = await context.Diagnosticos.Include(x=>x.Paciente).FirstOrDefaultAsync(x=>x.Id == request.Id);
+            var entity = await context.Diagnosticos.Include(x => x.Paciente).FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (entity == null)
             {

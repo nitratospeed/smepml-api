@@ -4,10 +4,7 @@ using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +31,7 @@ namespace Application.Core.Pacientes.Queries
         public async Task<PaginatedList<PacienteDto>> Handle(GetPacientesQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Pacientes
-                .Where(x=>x.Dni == request.Dni || request.Dni == "")
+                .Where(x => x.Dni == request.Dni || request.Dni == "")
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<PacienteDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);

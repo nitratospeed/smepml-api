@@ -3,10 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +28,7 @@ namespace Application.Core.Pacientes.Queries
         public async Task<PacienteDto> Handle(GetPacienteByIdQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Pacientes
-                .Where(x=>x.Id == request.Id)
+                .Where(x => x.Id == request.Id)
                 .ProjectTo<PacienteDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 

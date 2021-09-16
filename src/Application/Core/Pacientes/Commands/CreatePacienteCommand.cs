@@ -2,8 +2,6 @@
 using Domain.Entities;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,16 +33,16 @@ namespace Application.Core.Pacientes.Commands
         {
             var entity = new Paciente
             {
-               Apellidos = request.Apellidos,
-               Nombres = request.Nombres,
-               Celular = request.Celular,
-               Correo = request.Correo,
-               Direccion = request.Direccion,
-               Dni = request.Dni,
-               Edad = request.Edad,
-               FechaNacimiento = request.FechaNacimiento,
-               Genero = request.Genero,
-               Estado = true
+                Apellidos = request.Apellidos,
+                Nombres = request.Nombres,
+                Celular = request.Celular,
+                Correo = request.Correo,
+                Direccion = request.Direccion,
+                Dni = request.Dni,
+                Edad = request.Edad,
+                FechaNacimiento = request.FechaNacimiento,
+                Genero = request.Genero,
+                Estado = true
             };
 
             context.Pacientes.Add(entity);

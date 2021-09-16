@@ -1,9 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Persistence.Configurations
 {
@@ -29,7 +26,7 @@ namespace Infrastructure.Persistence.Configurations
             builder
                 .HasOne(x => x.Sintoma)
                 .WithMany(x => x.Preguntas)
-                .HasForeignKey(x=>x.SintomaId);
+                .HasForeignKey(x => x.SintomaId);
         }
     }
 }

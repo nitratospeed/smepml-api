@@ -1,12 +1,9 @@
 ﻿using Domain.Common;
 using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.ValueObjects
 {
-    public class Nivel:ValueObject
+    public class Nivel : ValueObject
     {
         static Nivel()
         {

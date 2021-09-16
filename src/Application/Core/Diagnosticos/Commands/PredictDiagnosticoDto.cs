@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Application.Core.Diagnosticos.Commands
+﻿namespace Application.Core.Diagnosticos.Commands
 {
     public class PredictDiagnosticoDto
     {

@@ -30,7 +30,7 @@ namespace Application.Core.Diagnosticos.Queries
 
         public async Task<PaginatedList<DiagnosticoDto>> Handle(GetDiagnosticosQuery request, CancellationToken cancellationToken)
         {
-            var result = await context.Diagnosticos.Include(x=>x.Paciente)
+            var result = await context.Diagnosticos.Include(x => x.Paciente)
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<DiagnosticoDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
