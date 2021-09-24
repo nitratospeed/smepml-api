@@ -12,6 +12,7 @@ namespace Domain.Entities
         public string Preguntas { get; set; }
         public string Resultados { get; set; }
         public string ResultadoMasPreciso { get; set; }
+        public int Calificacion { get; set; }
         public DateTime CreadoEn { get; set; }
         public string CreadoPor { get; set; }
         public DateTime? ActualizadoEn { get; set; }

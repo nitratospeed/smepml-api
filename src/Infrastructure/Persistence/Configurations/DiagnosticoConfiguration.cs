@@ -39,6 +39,10 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder
+                .Property(x => x.Calificacion)
+                .IsRequired();
+
+            builder
                 .Property(x => x.CreadoEn)
                 .IsRequired();
 

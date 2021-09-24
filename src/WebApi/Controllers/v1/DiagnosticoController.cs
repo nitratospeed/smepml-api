@@ -25,6 +25,12 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(command));
         }
 
+        [HttpPost("rating")]
+        public async Task<IActionResult> Rating(RatingDiagnosticoCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
         [HttpPost("predict")]
         public async Task<IActionResult> Predict(PredictDiagnosticoCommand command)
         {

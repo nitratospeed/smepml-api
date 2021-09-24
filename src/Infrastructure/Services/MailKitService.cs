@@ -23,26 +23,26 @@ namespace Infrastructure.Services
                 $"<h3>Este es el reporte del pre diagnostico #000{diagnostico.Id}</h3>" +
                 $"<p>Sintomas presentados:</p>";
 
-                foreach (var item in diagnostico.Sintomas.Split(","))
-                {
-                    htmlBody += $"<p>{item}</p>";
-                }
+            foreach (var item in diagnostico.Sintomas.Split(","))
+            {
+                htmlBody += $"<p>{item}</p>";
+            }
 
-                htmlBody += $"<hr>" +
-                $"<p>Resultados del pre-diagnóstico:</p>";
+            htmlBody += $"<hr>" +
+            $"<p>Resultados del pre-diagnóstico:</p>";
 
-                foreach (var item in diagnostico.Resultados.Split(","))
-                {
-                    htmlBody += $"<p>{item}</p>";
-                }
+            foreach (var item in diagnostico.Resultados.Split(","))
+            {
+                htmlBody += $"<p>{item}</p>";
+            }
 
-                htmlBody += $"<hr>" +
-                    $"<p>SMEPML</p>";
+            htmlBody += $"<hr>" +
+                $"<p>SMEPML</p>";
 
-                email.Body = new TextPart(TextFormat.Html)
-                {
-                    Text = htmlBody                
-                };
+            email.Body = new TextPart(TextFormat.Html)
+            {
+                Text = htmlBody
+            };
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);

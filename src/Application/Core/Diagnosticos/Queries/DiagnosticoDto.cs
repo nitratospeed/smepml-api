@@ -15,6 +15,7 @@ namespace Application.Core.Diagnosticos.Queries
         public string Preguntas { get; set; }
         public string Resultados { get; set; }
         public string ResultadoMasPreciso { get; set; }
+        public int Calificacion { get; set; }
 
         public void Mapping(Profile profile)
         {
