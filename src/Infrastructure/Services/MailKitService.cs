@@ -17,20 +17,32 @@ namespace Infrastructure.Services
             email.To.Add(MailboxAddress.Parse(diagnostico.Paciente.Correo));
             email.Subject = "Reporte pre-diagnóstico SMEPML";
 
-            email.Body = new TextPart(TextFormat.Html)
-            {
-                Text =
+            var htmlBody =
                 $"<h1>Hola {diagnostico.Paciente.Nombres} {diagnostico.Paciente.Apellidos}</h1>" +
                 $"<hr>" +
                 $"<h3>Este es el reporte del pre diagnostico #000{diagnostico.Id}</h3>" +
-                $"<p>Sintomas presentados:</p>" +
-                $"<p>{diagnostico.Sintomas}</p>" +
-                $"<hr>" +
-                $"<p>Resultados del pre-diagnóstico:</p>" +
-                $"<p>{diagnostico.Resultados}</p>" +
-                $"<hr>" +
-                "<p>SMEPML</p>"
-            };
+                $"<p>Sintomas presentados:</p>";
+
+                foreach (var item in diagnostico.Sintomas.Split(","))
+                {
+                    htmlBody += $"<p>{item}</p>";
+                }
+
+                htmlBody += $"<hr>" +
+                $"<p>Resultados del pre-diagnóstico:</p>";
+
+                foreach (var item in diagnostico.Resultados.Split(","))
+                {
+                    htmlBody += $"<p>{item}</p>";
+                }
+
+                htmlBody += $"<hr>" +
+                    $"<p>SMEPML</p>";
+
+                email.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = htmlBody                
+                };
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
