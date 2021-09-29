@@ -15,8 +15,8 @@ namespace Application.Core.Diagnosticos.Queries
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 5;
-        public string Nombres { get; set; } = "";
-        public string Dni { get; set; } = "";
+        public string Nombres { get; set; }
+        public string Dni { get; set; }
     }
 
     public class GetDiagnosticosQueryHandler : IRequestHandler<GetDiagnosticosQuery, PaginatedList<DiagnosticoDto>>
@@ -33,8 +33,8 @@ namespace Application.Core.Diagnosticos.Queries
         public async Task<PaginatedList<DiagnosticoDto>> Handle(GetDiagnosticosQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Diagnosticos.Include(x => x.Paciente)
-                .Where(x=> (x.Paciente.Nombres.ToLower().Contains(request.Nombres.ToLower()) || request.Nombres == "") 
-                    && (x.Paciente.Dni == request.Dni || request.Dni == ""))
+                .Where(x=> (x.Paciente.Nombres.ToLower().Contains(request.Nombres) || request.Nombres == null) 
+                    && (x.Paciente.Dni == request.Dni || request.Dni == null))
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<DiagnosticoDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
