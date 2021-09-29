@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.v1
 {
+    [ApiVersion("1.0")]
     public class PacienteController : BaseApiController
     {
         [HttpGet]

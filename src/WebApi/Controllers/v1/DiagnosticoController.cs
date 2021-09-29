@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Controllers.v1
 {
+    [ApiVersion("1.0")]
     public class DiagnosticoController : BaseApiController
     {
         [HttpGet]
@@ -17,6 +18,12 @@ namespace WebApi.Controllers.v1
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await Mediator.Send(new GetDiagnosticoByIdQuery { Id = id }));
+        }
+
+        [HttpGet("report")]
+        public async Task<IActionResult> Report()
+        {
+            return Ok(await Mediator.Send(new ReportDiagnosticosQuery { }));
         }
 
         [HttpPost]

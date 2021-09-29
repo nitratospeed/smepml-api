@@ -14,6 +14,7 @@ namespace Application.Core.Usuarios.Queries
     {
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 20;
+        public string Nombres { get; set; } = "";
     }
 
     public class GetUsuariosQueryHandler : IRequestHandler<GetUsuariosQuery, PaginatedList<UsuarioDto>>
@@ -30,6 +31,7 @@ namespace Application.Core.Usuarios.Queries
         public async Task<PaginatedList<UsuarioDto>> Handle(GetUsuariosQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Usuarios
+                .Where(x=>x.NombreCompleto.ToLower().Contains(request.Nombres.ToLower()) || request.Nombres == "")
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<UsuarioDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
