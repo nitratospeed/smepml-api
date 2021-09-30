@@ -1,5 +1,6 @@
 ﻿using Application.Core.Usuarios.Commands;
 using Application.Core.Usuarios.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -43,6 +44,7 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(new DeleteUsuarioCommand { Id = id }));
         }
 
+        [AllowAnonymous]
         [HttpPost("auth")]
         public async Task<IActionResult> Auth(AuthUsuarioCommand command)
         {

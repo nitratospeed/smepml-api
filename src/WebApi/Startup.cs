@@ -1,6 +1,9 @@
 using Application;
+using Application.Common.Interfaces;
+using Application.Common.Models;
 using FluentValidation.AspNetCore;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +12,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
+using System.Text;
 using WebApi.Filters;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -35,9 +41,24 @@ namespace WebApi
 
             services.AddInfrastructure(Configuration);
 
-            //services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = AppSettingsKeys.Issuer,
+                    ValidAudience = AppSettingsKeys.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettingsKeys.Key))
+                };
+            });
 
             services.AddControllers(options =>
             {
@@ -79,34 +100,28 @@ namespace WebApi
 
             services.AddSwaggerGen(c =>
             {
-                //var securityScheme = new OpenApiSecurityScheme
-                //{
-                //    Name = "JWT Authentication",
-                //    Description = "Enter JWT Bearer token **_only_**",
-                //    In = ParameterLocation.Header,
-                //    Type = SecuritySchemeType.Http,
-                //    Scheme = "bearer",
-                //    BearerFormat = "JWT",
-                //    Reference = new OpenApiReference
-                //    {
-                //        Id = JwtBearerDefaults.AuthenticationScheme,
-                //        Type = ReferenceType.SecurityScheme
-                //    }
-                //};
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
 
-                //c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-                //c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                //{
-                //    {securityScheme, new string[] { }}
-                //});
+                c.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {securityScheme, new string[] { }}
+                });
             });
 
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //.AddJwtBearer(options =>
-            //{
-            //    options.Audience = "/";
-            //    options.Authority = "/usuario/auth";
-            //});
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
         }
@@ -151,7 +166,7 @@ namespace WebApi
 
             app.UseCors(AllowSpecificOrigins);
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

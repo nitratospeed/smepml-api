@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Services;
+using Application.Common.Models;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace Infrastructure
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
             services.AddScoped<IAzureMLService, AzureMLService>();
             services.AddScoped<IMailKitService, MailKitService>();
+
+            services.AddTransient<IDateTime, DateTimeService>();
+
+            AppSettingsKeys.Issuer = configuration["AppSettings:Issuer"];
+            AppSettingsKeys.Key = configuration["AppSettings:Key"];
 
             return services;
         }
