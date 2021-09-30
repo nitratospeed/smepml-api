@@ -34,7 +34,7 @@ namespace Application.Core.Diagnosticos.Queries
         public async Task<PaginatedList<DiagnosticoDto>> Handle(GetDiagnosticosQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Diagnosticos.Include(x => x.Paciente)
-                .Where(x=> (x.Paciente.Nombres.Contains(request.Nombres, StringComparison.CurrentCultureIgnoreCase) || request.Nombres == null) 
+                .Where(x=> (x.Paciente.Nombres.Contains(request.Nombres) || request.Nombres == null) 
                     && (x.Paciente.Dni == request.Dni || request.Dni == null))
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<DiagnosticoDto>(mapper.ConfigurationProvider)
