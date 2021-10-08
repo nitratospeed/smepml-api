@@ -1,6 +1,5 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Common.Interfaces.Services;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,12 +15,14 @@ namespace Application.Core.Diagnosticos.Commands
     public class EmailDiagnosticoCommandHandler : IRequestHandler<EmailDiagnosticoCommand, bool>
     {
         private readonly IMailKitService mailKitService;
+        private readonly ITemplateService templateService;
         private readonly IAppDbContext context;
 
-        public EmailDiagnosticoCommandHandler(IMailKitService mailKitService, IAppDbContext context)
+        public EmailDiagnosticoCommandHandler(IMailKitService mailKitService, IAppDbContext context, ITemplateService templateService)
         {
             this.mailKitService = mailKitService;
             this.context = context;
+            this.templateService = templateService;
         }
 
         public async Task<bool> Handle(EmailDiagnosticoCommand request, CancellationToken cancellationToken)
@@ -36,7 +37,11 @@ namespace Application.Core.Diagnosticos.Commands
             var correoDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "CorreoDe");
             var contrasenaDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "ContrasenaDe");
 
-            return await mailKitService.SendEmail(entity, correoDe.Value, contrasenaDe.Value);
+            var enfermedad = await context.Enfermedades.Include(x=>x.Examenes).FirstOrDefaultAsync(x => x.Nombre.ToLower() == entity.ResultadoMasPreciso.ToLower());
+
+            var htmlAdjunto = templateService.GetTemplate(entity, enfermedad);
+
+            return await mailKitService.SendEmail(htmlAdjunto, entity, correoDe.Value, contrasenaDe.Value);
         }
     }
 }

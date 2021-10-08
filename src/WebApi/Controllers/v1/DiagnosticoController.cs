@@ -1,5 +1,6 @@
 ﻿using Application.Core.Diagnosticos.Commands;
 using Application.Core.Diagnosticos.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -20,10 +21,16 @@ namespace WebApi.Controllers.v1
             return Ok(await Mediator.Send(new GetDiagnosticoByIdQuery { Id = id }));
         }
 
-        [HttpGet("report")]
-        public async Task<IActionResult> Report()
+        [HttpGet("pdf")]
+        public async Task<IActionResult> PdfById(int id)
         {
-            return Ok(await Mediator.Send(new ReportDiagnosticosQuery { }));
+            return File(await Mediator.Send(new PdfDiagnosticoByIdQuery { Id = id }), "application/octet-stream", $"reporte_000{id}.pdf");
+        }
+
+        [HttpGet("report")]
+        public async Task<IActionResult> Report(int tipoReporte)
+        {
+            return Ok(await Mediator.Send(new ReportDiagnosticosQuery { TipoReporte = tipoReporte }));
         }
 
         [HttpPost]

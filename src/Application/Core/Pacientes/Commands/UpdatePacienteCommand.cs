@@ -1,8 +1,11 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using FluentValidation.Results;
 using MediatR;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,6 +41,22 @@ namespace Application.Core.Pacientes.Commands
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Paciente), request.Id);
+            }
+
+            if (entity.Correo != request.Correo)
+            {
+                if (context.Pacientes.Any(x => x.Correo == request.Correo))
+                {
+                    throw new ValidationException(new List<ValidationFailure>() { new ValidationFailure("Correo", "El correo ingresado ya existe.") });
+                }
+            }
+
+            if (entity.Dni != request.Dni)
+            {
+                if (context.Pacientes.Any(x => x.Dni == request.Dni))
+                {
+                    throw new ValidationException(new List<ValidationFailure>() { new ValidationFailure("Dni", "El dni ingresado ya existe.") });
+                }
             }
 
             entity.Apellidos = request.Apellidos;

@@ -1,11 +1,16 @@
-﻿using FluentValidation;
+﻿using Application.Common.Interfaces;
+using FluentValidation;
+using System.Linq;
 
 namespace Application.Core.Pacientes.Commands
 {
     public class CreatePacienteValidator : AbstractValidator<CreatePacienteCommand>
     {
-        public CreatePacienteValidator()
+        private readonly IAppDbContext context;
+        public CreatePacienteValidator(IAppDbContext context)
         {
+            this.context = context;
+
             RuleFor(x => x.Apellidos)
                 .MaximumLength(100)
                 .NotEmpty();
@@ -16,7 +21,8 @@ namespace Application.Core.Pacientes.Commands
 
             RuleFor(x => x.Dni)
                 .MaximumLength(8)
-                .NotEmpty();
+                .NotEmpty()
+                .Must(x => !context.Pacientes.Any(y => y.Dni == x)).WithMessage("El dni ingresado ya existe.");
 
             RuleFor(x => x.Celular)
                 .MaximumLength(9)
@@ -27,7 +33,8 @@ namespace Application.Core.Pacientes.Commands
 
             RuleFor(x => x.Correo)
                 .MaximumLength(250)
-                .NotEmpty();
+                .NotEmpty()
+                .Must(x => !context.Pacientes.Any(y => y.Correo == x)).WithMessage("El correo ingresado ya existe.");
 
             RuleFor(x => x.Direccion)
                 .MaximumLength(500)

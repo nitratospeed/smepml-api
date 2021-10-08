@@ -2,8 +2,11 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Enums;
+using FluentValidation.Results;
 using MediatR;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,6 +37,14 @@ namespace Application.Core.Usuarios.Commands
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Usuario), request.Id);
+            }
+
+            if (entity.Correo != request.Correo)
+            {
+                if (context.Usuarios.Any(x=>x.Correo == request.Correo))
+                {
+                    throw new ValidationException(new List<ValidationFailure>() { new ValidationFailure("Correo", "El correo ingresado ya existe.") } );
+                }
             }
 
             entity.Correo = request.Correo;

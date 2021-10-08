@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Services;
 using Application.Common.Models;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
@@ -21,7 +20,8 @@ namespace Infrastructure
             services.AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
             services.AddScoped<IAzureMLService, AzureMLService>();
             services.AddScoped<IMailKitService, MailKitService>();
-
+            services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<ITemplateService, TemplateService>();
             services.AddTransient<IDateTime, DateTimeService>();
 
             AppSettingsKeys.Issuer = configuration["AppSettings:Issuer"];
