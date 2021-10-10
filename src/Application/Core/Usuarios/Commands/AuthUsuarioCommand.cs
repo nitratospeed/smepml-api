@@ -40,7 +40,7 @@ namespace Application.Core.Usuarios.Commands
 
             var token = GenerateJwtToken(usuario);
 
-            return new AuthUsuarioDto { Valid = true, Usuario = usuario.Correo, Token = token };
+            return new AuthUsuarioDto { Valid = true, Usuario = usuario.NombreCompleto, Token = token };
         }
 
         private string GenerateJwtToken(Usuario user)
