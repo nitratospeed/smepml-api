@@ -33,7 +33,9 @@ namespace Application.Core.Pacientes.Queries
         public async Task<PaginatedList<PacienteDto>> Handle(GetPacientesQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Pacientes
-                .Where(x => (x.Nombres.Contains(request.Nombres) || request.Nombres == null) && (x.Dni == request.Dni || request.Dni == null))
+                .Where(x => 
+                (x.Nombres.Contains(request.Nombres) || request.Nombres == null) 
+                && (x.Dni.Contains(request.Dni) || request.Dni == null))
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<PacienteDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
