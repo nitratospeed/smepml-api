@@ -27,9 +27,15 @@ namespace Infrastructure.Services
 
             var htmlBody =
                 $"<h1>Hola, {diagnostico.Paciente.Nombres} {diagnostico.Paciente.Apellidos}</h1>" +
-                $"<hr>" +
-                $"<h3>Te adjuntamos el reporte de tu pre diagnóstico #000{diagnostico.Id}</h3>" +
-                $"<hr>" +
+                $"<br>" +
+                $"<h3>Te adjuntamos el reporte de tu pre diagnóstico #000{diagnostico.Id}, realizado por el sistema SMEPML.</h3>" +
+                $"<br>" +
+                $"<p>Saludos.</p>" +
+                $"<br>" +
+                $"<p>Por favor NO RESPONDER a esta dirección de correo electrónico pues se trata de un buzón como 'solo salida'," +
+                $" aún cuando no reciba mensajes de error, su correo no va a ser atendido." +
+                $" Sus consultas podrán ser atendidas solo por su médico Gastroenterólogo en las citas presenciales.</p>" +
+                $"<br>" +
                 $"<p>SMEPML</p>";
 
             builder.HtmlBody = htmlBody;
