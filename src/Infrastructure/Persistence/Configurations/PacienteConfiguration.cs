@@ -64,6 +64,24 @@ namespace Infrastructure.Persistence.Configurations
             builder
                 .Property(x => x.Estado)
                 .IsRequired();
+
+            builder
+                .Property(x => x.CreadoEn)
+                .IsRequired();
+
+            builder
+                .Property(x => x.CreadoPor)
+                .IsRequired()
+                .HasMaxLength(250);
+
+            builder
+                .Property(x => x.ActualizadoEn)
+                .IsRequired(false);
+
+            builder
+                .Property(x => x.ActualizadoPor)
+                .IsRequired(false)
+                .HasMaxLength(250);
         }
     }
 }

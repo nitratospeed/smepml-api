@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,8 +33,6 @@ namespace Application.Core.Usuarios.Commands
                 NombreCompleto = request.NombreCompleto,
                 Perfil = request.Perfil,
                 Estado = true,
-                CreadoPor = "system",
-                CreadoEn = DateTime.Now
             };
 
             context.Usuarios.Add(entity);

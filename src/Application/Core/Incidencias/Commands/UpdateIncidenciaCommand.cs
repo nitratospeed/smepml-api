@@ -41,8 +41,6 @@ namespace Application.Core.Incidencias.Commands
             entity.Descripcion = request.Descripcion;
             entity.AdjuntoUrl = request.AdjuntoUrl;
             entity.Estado = request.Estado;
-            entity.ActualizadoPor = "system";
-            entity.ActualizadoEn = DateTime.Now;
 
             await context.SaveChangesAsync(cancellationToken);
 

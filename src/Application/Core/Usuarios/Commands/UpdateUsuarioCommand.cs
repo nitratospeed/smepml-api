@@ -52,8 +52,6 @@ namespace Application.Core.Usuarios.Commands
             entity.NombreCompleto = request.NombreCompleto;
             entity.Perfil = request.Perfil;
             entity.Estado = true;
-            entity.ActualizadoPor = "system";
-            entity.ActualizadoEn = DateTime.Now;
 
             await context.SaveChangesAsync(cancellationToken);
 

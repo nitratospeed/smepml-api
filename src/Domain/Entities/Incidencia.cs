@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Domain.Common;
+using System;
 
 namespace Domain.Entities
 {
-    public class Incidencia
+    public class Incidencia : AuditableEntity
     {
         public int Id { get; set; }
         public string Urgencia { get; set; } //enum
@@ -10,9 +11,5 @@ namespace Domain.Entities
         public string Descripcion { get; set; }
         public string AdjuntoUrl { get; set; }
         public string Estado { get; set; } //enum
-        public DateTime CreadoEn { get; set; }
-        public string CreadoPor { get; set; }
-        public DateTime? ActualizadoEn { get; set; }
-        public string ActualizadoPor { get; set; }
     }
 }

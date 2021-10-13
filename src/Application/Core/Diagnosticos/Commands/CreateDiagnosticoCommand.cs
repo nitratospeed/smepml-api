@@ -37,8 +37,6 @@ namespace Application.Core.Diagnosticos.Commands
                 Sintomas = request.Sintomas,
                 Resultados = request.Resultados,
                 Calificacion = 0,
-                CreadoPor = "system",
-                CreadoEn = DateTime.UtcNow.AddHours(-5)
             };
 
             context.Diagnosticos.Add(entity);

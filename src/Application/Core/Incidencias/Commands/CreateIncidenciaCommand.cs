@@ -34,8 +34,6 @@ namespace Application.Core.Incidencias.Commands
                 Descripcion = request.Descripcion,
                 AdjuntoUrl = request.AdjuntoUrl,
                 Estado = request.Estado,
-                CreadoPor = "system",
-                CreadoEn = DateTime.Now
             };
 
             context.Incidencias.Add(entity);

@@ -5,7 +5,7 @@ namespace Infrastructure.Services
 {
     public class DateTimeService : IDateTime
     {
-        public DateTime Now => DateTime.Now;
+        public DateTime Now => DateTime.UtcNow.AddHours(-5);
         public DateTime OffsetFromUnixTimeSeconds(long seconds) => DateTimeOffset.FromUnixTimeSeconds(seconds).ToLocalTime().DateTime;
     }
 }

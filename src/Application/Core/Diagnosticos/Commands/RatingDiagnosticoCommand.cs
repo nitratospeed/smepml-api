@@ -32,8 +32,6 @@ namespace Application.Core.Diagnosticos.Commands
             }
 
             entity.Calificacion = request.Calificacion;
-            entity.ActualizadoEn = DateTime.UtcNow.AddHours(-5);
-            entity.ActualizadoPor = "system";
 
             await context.SaveChangesAsync(cancellationToken);
 

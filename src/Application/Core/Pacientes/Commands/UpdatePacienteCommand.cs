@@ -18,7 +18,7 @@ namespace Application.Core.Pacientes.Commands
         public string Nombres { get; set; }
         public string Dni { get; set; }
         public string Celular { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public string Correo { get; set; }
         public string Direccion { get; set; }
         public int Edad { get; set; }
@@ -66,7 +66,7 @@ namespace Application.Core.Pacientes.Commands
             entity.Direccion = request.Direccion;
             entity.Dni = request.Dni;
             entity.Edad = request.Edad;
-            entity.FechaNacimiento = request.FechaNacimiento;
+            entity.FechaNacimiento = request.FechaNacimiento.Value;
             entity.Genero = request.Genero;
             entity.Estado = true;
 

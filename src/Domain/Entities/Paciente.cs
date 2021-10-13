@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Domain.Common;
+using System;
 using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-    public class Paciente
+    public class Paciente : AuditableEntity
     {
         public int Id { get; set; }
         public string Apellidos { get; set; }

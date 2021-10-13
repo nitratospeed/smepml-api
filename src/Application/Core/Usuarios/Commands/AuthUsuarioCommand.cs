@@ -51,7 +51,10 @@ namespace Application.Core.Usuarios.Commands
             {
                 Audience = AppSettingsKeys.Issuer,
                 Issuer = AppSettingsKeys.Issuer,
-                Subject = new ClaimsIdentity(new[] { new Claim("perfil", Enum.GetName(typeof(PerfilEnum), user.Perfil)) }),
+                Subject = new ClaimsIdentity(new[] { 
+                    new Claim("perfil", Enum.GetName(typeof(PerfilEnum), user.Perfil)),
+                    new Claim("username", user.Correo)
+                }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
