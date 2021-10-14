@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistence;
+﻿using Application.Common.Interfaces;
+using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApi;
 
@@ -33,9 +35,23 @@ namespace Application.IntegrationTests
 
             services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
             w.EnvironmentName == "Development" &&
-            w.ApplicationName == "Api"));
+            w.ApplicationName == "WebApi"));
+
+            services.AddLogging();
 
             startup.ConfigureServices(services);
+
+            // Replace service registration for ICurrentUserService
+            // Remove existing registration
+            var currentUserServiceDescriptor = services.FirstOrDefault(d =>
+                d.ServiceType == typeof(ICurrentUserService));
+
+            services.Remove(currentUserServiceDescriptor);
+
+            // Register testing version
+            services.AddTransient(provider =>
+                Mock.Of<ICurrentUserService>(s => s.UserName == "u201817688@upc.edu.pe")); //currentUserId
+
 
             _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
         }

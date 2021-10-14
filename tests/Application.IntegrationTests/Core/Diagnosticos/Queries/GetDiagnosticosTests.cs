@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Application.IntegrationTests.Core.Diagnosticos.Queries
 {
     using static Testing;
-    public class GetDiagnosticoTests
+    public class GetDiagnosticosTests
     {
         [Test]
         public async Task ShouldReturnDiagnostico()
