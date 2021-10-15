@@ -22,6 +22,7 @@ namespace Infrastructure
             services.AddScoped<IMailKitService, MailKitService>();
             services.AddScoped<IPdfService, PdfService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<IAzureBlobService, AzureBlobService>();
             services.AddTransient<IDateTime, DateTimeService>();
 
             AppSettingsKeys.Issuer = configuration["AppSettings:Issuer"];

@@ -15,7 +15,6 @@ namespace Application.Core.Incidencias.Commands
                 .NotEmpty();
 
             RuleFor(x => x.AdjuntoUrl)
-                .MaximumLength(250)
                 .NotEmpty();
 
             RuleFor(x => x.Estado)
