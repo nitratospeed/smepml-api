@@ -17,7 +17,6 @@ namespace Application.Core.Pacientes.Queries
         public string Direccion { get; set; }
         public int Edad { get; set; }
         public string Genero { get; set; }
-        //public List<Diagnostico> Diagnosticos { get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Paciente, PacienteDto>();

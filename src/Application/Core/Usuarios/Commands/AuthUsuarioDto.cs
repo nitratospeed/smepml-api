@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Application.Core.Usuarios.Commands
+﻿namespace Application.Core.Usuarios.Commands
 {
     public class AuthUsuarioDto
     {

@@ -4,7 +4,6 @@ using Domain.Entities;
 using Domain.Enums;
 using FluentValidation.Results;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -41,9 +40,9 @@ namespace Application.Core.Usuarios.Commands
 
             if (entity.Correo != request.Correo)
             {
-                if (context.Usuarios.Any(x=>x.Correo == request.Correo))
+                if (context.Usuarios.Any(x => x.Correo == request.Correo))
                 {
-                    throw new ValidationException(new List<ValidationFailure>() { new ValidationFailure("Correo", "El correo ingresado ya existe.") } );
+                    throw new ValidationException(new List<ValidationFailure>() { new ValidationFailure("Correo", "El correo ingresado ya existe.") });
                 }
             }
 

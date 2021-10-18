@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Application.Core.Diagnosticos.Queries
+﻿namespace Application.Core.Diagnosticos.Queries
 {
     public class ReportDiagnosticosDto
     {

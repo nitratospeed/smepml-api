@@ -41,16 +41,13 @@ namespace Application.IntegrationTests
 
             startup.ConfigureServices(services);
 
-            // Replace service registration for ICurrentUserService
-            // Remove existing registration
             var currentUserServiceDescriptor = services.FirstOrDefault(d =>
                 d.ServiceType == typeof(ICurrentUserService));
 
             services.Remove(currentUserServiceDescriptor);
 
-            // Register testing version
             services.AddTransient(provider =>
-                Mock.Of<ICurrentUserService>(s => s.UserName == "u201817688@upc.edu.pe")); //currentUserId
+                Mock.Of<ICurrentUserService>(s => s.UserName == "u201817688@upc.edu.pe"));
 
 
             _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();

@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
-using System;
 
 namespace Infrastructure.Services
 {
@@ -29,7 +28,7 @@ namespace Infrastructure.Services
 
             htmlBody += $"<hr>" +
             $"<p>Recomendaciones sugeridas:</p>";
-            htmlBody += $"<p>{enfermedad.Recomendacion}</p>";          
+            htmlBody += $"<p>{enfermedad.Recomendacion}</p>";
 
             htmlBody += $"<hr>" +
             $"<p>Exámenes sugeridos:</p>";

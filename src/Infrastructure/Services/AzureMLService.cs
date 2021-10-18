@@ -24,7 +24,6 @@ namespace Infrastructure.Services
             };
             using (var client = new HttpClient(handler))
             {
-                // Request data goes here
                 var scoreRequest = new
                 {
                     Inputs = new Dictionary<string, List<Dictionary<string, string>>>()
@@ -54,15 +53,6 @@ namespace Infrastructure.Services
                 const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 client.BaseAddress = new Uri("http://95079e12-7942-4f8c-8fde-43a58117e83e.centralus.azurecontainer.io/score");
-
-                // WARNING: The 'await' statement below can result in a deadlock
-                // if you are calling this code from the UI thread of an ASP.Net application.
-                // One way to address this would be to call ConfigureAwait(false)
-                // so that the execution does not attempt to resume on the original context.
-                // For instance, replace code such as:
-                //      result = await DoSomeTask()
-                // with the following:
-                //      result = await DoSomeTask().ConfigureAwait(false)
 
                 var requestString = JsonConvert.SerializeObject(scoreRequest);
                 var content = new StringContent(requestString);
@@ -110,11 +100,7 @@ namespace Infrastructure.Services
                 else
                 {
                     Console.WriteLine(string.Format("The request failed with status code: {0}", response.StatusCode));
-
-                    // Print the headers - they include the requert ID and the timestamp,
-                    // which are useful for debugging the failure
                     Console.WriteLine(response.Headers.ToString());
-
                     string responseContent = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(responseContent);
                     return (null, "");

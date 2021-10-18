@@ -33,7 +33,7 @@ namespace Application.Core.Incidencias.Queries
         public async Task<PaginatedList<IncidenciaDto>> Handle(GetIncidenciasQuery request, CancellationToken cancellationToken)
         {
             var result = await context.Incidencias
-                .Where(x=> (x.CreadoPor == request.Username || request.Username == null)
+                .Where(x => (x.CreadoPor == request.Username || request.Username == null)
                 && (x.Titulo.Contains(request.Titulo) || request.Titulo == null)
                 && (x.Urgencia.Contains(request.Urgencia) || request.Urgencia == null))
                 .OrderByDescending(x => x.Id)

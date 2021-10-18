@@ -20,7 +20,6 @@ namespace WebApi.Filters
 
         public ApiExceptionFilterAttribute()
         {
-            // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<string, Action<ExceptionContext>>
             {
                 { nameof(ValidationException), HandleValidationException },

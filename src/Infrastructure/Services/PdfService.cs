@@ -1,7 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Entities;
 using SelectPdf;
-using System;
 
 namespace Infrastructure.Services
 {

@@ -1,6 +1,5 @@
 ﻿using Application.Core.Diagnosticos.Commands;
 using Application.Core.Diagnosticos.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

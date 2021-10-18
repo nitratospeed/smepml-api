@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Diagnosticos.Queries
 {
-    public class PdfDiagnosticoByIdQuery: IRequest<byte[]>
+    public class PdfDiagnosticoByIdQuery : IRequest<byte[]>
     {
         public int Id { get; set; }
     }
@@ -31,7 +31,7 @@ namespace Application.Core.Diagnosticos.Queries
 
         public async Task<byte[]> Handle(PdfDiagnosticoByIdQuery request, CancellationToken cancellationToken)
         {
-            var entity = await context.Diagnosticos.Include(x => x.Paciente).FirstOrDefaultAsync(x=>x.Id == request.Id);
+            var entity = await context.Diagnosticos.Include(x => x.Paciente).FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (entity == null)
             {

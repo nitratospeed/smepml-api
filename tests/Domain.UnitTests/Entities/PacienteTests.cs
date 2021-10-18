@@ -1,9 +1,7 @@
 ﻿using Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 
 namespace Domain.UnitTests.Entities
 {
@@ -20,7 +18,7 @@ namespace Domain.UnitTests.Entities
         [Test]
         public void ShouldReturnInvalidEdad()
         {
-            static void InvalidEdad() 
+            static void InvalidEdad()
             {
                 var paciente = new Paciente() { Edad = 10 };
 

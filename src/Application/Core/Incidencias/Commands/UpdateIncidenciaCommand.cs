@@ -2,7 +2,6 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,11 +10,11 @@ namespace Application.Core.Incidencias.Commands
     public class UpdateIncidenciaCommand : IRequest<int>
     {
         public int Id { get; set; }
-        public string Urgencia { get; set; } //enum
+        public string Urgencia { get; set; }
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
         public string AdjuntoUrl { get; set; }
-        public string Estado { get; set; } //enum
+        public string Estado { get; set; }
     }
 
     public class UpdateIncidenciaCommandHandler : IRequestHandler<UpdateIncidenciaCommand, int>

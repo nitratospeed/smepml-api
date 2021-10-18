@@ -24,7 +24,7 @@ namespace WebApi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> Create(string titulo, string descripcion, string urgencia, string estado, IFormFile adjuntoUrl)
         {
-            return Ok(await Mediator.Send(new CreateIncidenciaCommand { Titulo =  titulo, Descripcion = descripcion, Urgencia = urgencia, Estado = estado, AdjuntoUrl = adjuntoUrl}));
+            return Ok(await Mediator.Send(new CreateIncidenciaCommand { Titulo = titulo, Descripcion = descripcion, Urgencia = urgencia, Estado = estado, AdjuntoUrl = adjuntoUrl }));
         }
 
         [HttpPut("{id}")]

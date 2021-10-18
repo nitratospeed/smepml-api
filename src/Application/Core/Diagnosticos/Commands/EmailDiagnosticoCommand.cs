@@ -37,7 +37,7 @@ namespace Application.Core.Diagnosticos.Commands
             var correoDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "CorreoDe");
             var contrasenaDe = await context.Configuraciones.FirstOrDefaultAsync(x => x.Key == "ContrasenaDe");
 
-            var enfermedad = await context.Enfermedades.Include(x=>x.Examenes).FirstOrDefaultAsync(x => x.Nombre.ToLower() == entity.ResultadoMasPreciso.ToLower());
+            var enfermedad = await context.Enfermedades.Include(x => x.Examenes).FirstOrDefaultAsync(x => x.Nombre.ToLower() == entity.ResultadoMasPreciso.ToLower());
 
             var htmlAdjunto = templateService.GetTemplate(entity, enfermedad);
 

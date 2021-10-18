@@ -5,7 +5,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Enums;
 using MediatR;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,11 +34,11 @@ namespace Application.Core.Usuarios.Queries
         {
             var perfil = new PerfilEnum();
 
-            if (request.Perfil == 1){ perfil = PerfilEnum.Administrador; }
+            if (request.Perfil == 1) { perfil = PerfilEnum.Administrador; }
             if (request.Perfil == 2) { perfil = PerfilEnum.Medico; }
 
             var result = await context.Usuarios
-                .Where(x=> (x.NombreCompleto.Contains(request.Nombres) || request.Nombres == null)
+                .Where(x => (x.NombreCompleto.Contains(request.Nombres) || request.Nombres == null)
                 && (x.Perfil == perfil || request.Perfil == null))
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<UsuarioDto>(mapper.ConfigurationProvider)

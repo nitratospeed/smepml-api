@@ -1,16 +1,16 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Models;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
-using Application.Common.Models;
-using Domain.Enums;
 
 namespace Application.Core.Usuarios.Commands
 {
@@ -51,7 +51,7 @@ namespace Application.Core.Usuarios.Commands
             {
                 Audience = AppSettingsKeys.Issuer,
                 Issuer = AppSettingsKeys.Issuer,
-                Subject = new ClaimsIdentity(new[] { 
+                Subject = new ClaimsIdentity(new[] {
                     new Claim("perfil", Enum.GetName(typeof(PerfilEnum), user.Perfil)),
                     new Claim("username", user.Correo)
                 }),
