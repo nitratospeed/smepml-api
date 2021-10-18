@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -10,5 +11,6 @@ namespace Domain.Entities
         public string Descripcion { get; set; }
         public string AdjuntoUrl { get; set; }
         public string Estado { get; set; }
+        public List<Seguimiento> Seguimientos { get; set; }
     }
 }

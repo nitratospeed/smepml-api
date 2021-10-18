@@ -4,6 +4,7 @@ using Application.Common.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Application.Core.Incidencias.Queries
 
         public async Task<PaginatedList<IncidenciaDto>> Handle(GetIncidenciasQuery request, CancellationToken cancellationToken)
         {
-            var result = await context.Incidencias
+            var result = await context.Incidencias.Include(x=>x.Seguimientos)
                 .Where(x => (x.CreadoPor == request.Username || request.Username == null)
                 && (x.Titulo.Contains(request.Titulo) || request.Titulo == null)
                 && (x.Urgencia.Contains(request.Urgencia) || request.Urgencia == null))

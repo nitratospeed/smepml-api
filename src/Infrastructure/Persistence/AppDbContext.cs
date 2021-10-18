@@ -29,6 +29,7 @@ namespace Infrastructure.Persistence
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Incidencia> Incidencias { get; set; }
         public DbSet<Configuracion> Configuraciones { get; set; }
+        public DbSet<Seguimiento> Seguimientos { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

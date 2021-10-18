@@ -1,6 +1,7 @@
 ﻿using Application.Common.Mappings;
 using AutoMapper;
 using Domain.Entities;
+using System.Collections.Generic;
 
 namespace Application.Core.Incidencias.Queries
 {
@@ -12,6 +13,7 @@ namespace Application.Core.Incidencias.Queries
         public string Descripcion { get; set; }
         public string AdjuntoUrl { get; set; }
         public string Estado { get; set; }
+        public List<SeguimientoDto> Seguimientos { get; set; }
 
         public void Mapping(Profile profile)
         {

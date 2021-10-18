@@ -17,6 +17,7 @@ namespace Application.Common.Interfaces
         DbSet<Usuario> Usuarios { get; set; }
         DbSet<Incidencia> Incidencias { get; set; }
         DbSet<Configuracion> Configuraciones { get; set; }
+        DbSet<Seguimiento> Seguimientos { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

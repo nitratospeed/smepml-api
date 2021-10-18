@@ -27,7 +27,7 @@ namespace Application.Core.Incidencias.Queries
 
         public async Task<IncidenciaDto> Handle(GetIncidenciaByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await context.Incidencias
+            var result = await context.Incidencias.Include(x=>x.Seguimientos)
                 .Where(x => x.Id == request.Id)
                 .ProjectTo<IncidenciaDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
