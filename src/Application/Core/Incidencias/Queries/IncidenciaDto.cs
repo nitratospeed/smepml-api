@@ -13,11 +13,13 @@ namespace Application.Core.Incidencias.Queries
         public string Descripcion { get; set; }
         public string AdjuntoUrl { get; set; }
         public string Estado { get; set; }
+        public string Usuario { get; set; }
         public List<SeguimientoDto> Seguimientos { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Incidencia, IncidenciaDto>();
+            profile.CreateMap<Incidencia, IncidenciaDto>()
+                .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.CreadoPor));
         }
     }
 }

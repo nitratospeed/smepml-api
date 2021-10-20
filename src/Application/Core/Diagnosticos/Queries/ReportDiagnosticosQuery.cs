@@ -51,6 +51,22 @@ namespace Application.Core.Diagnosticos.Queries
                 }
             }
 
+            if (request.TipoReporte == 3)
+            {
+                foreach (var item in result.GroupBy(x => x.CreadoPor))
+                {
+                    listDto.Add(new ReportDiagnosticosDto { Name = item.Key, Value = item.Count().ToString() });
+                }
+            }
+
+            if (request.TipoReporte == 4)
+            {
+                foreach (var item in result.GroupBy(x => x.Calificacion.ToString()))
+                {
+                    listDto.Add(new ReportDiagnosticosDto { Name = item.Key, Value = item.Count().ToString() });
+                }
+            }
+
             return listDto;
         }
     }

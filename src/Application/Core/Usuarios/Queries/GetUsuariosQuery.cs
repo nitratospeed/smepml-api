@@ -17,6 +17,7 @@ namespace Application.Core.Usuarios.Queries
         public int PageSize { get; set; } = 5;
         public string Nombres { get; set; }
         public int? Perfil { get; set; }
+        public bool Estado { get; set; } = true;
     }
 
     public class GetUsuariosQueryHandler : IRequestHandler<GetUsuariosQuery, PaginatedList<UsuarioDto>>
@@ -39,7 +40,8 @@ namespace Application.Core.Usuarios.Queries
 
             var result = await context.Usuarios
                 .Where(x => (x.NombreCompleto.Contains(request.Nombres) || request.Nombres == null)
-                && (x.Perfil == perfil || request.Perfil == null))
+                && (x.Perfil == perfil || request.Perfil == null)
+                && (x.Estado == request.Estado))
                 .OrderByDescending(x => x.Id)
                 .ProjectTo<UsuarioDto>(mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
