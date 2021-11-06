@@ -12,10 +12,13 @@ namespace Infrastructure.Services
 {
     public class AzureMLService : IAzureMLService
     {
+        public class AzureMLRequest
+        {
+            public List<string> data { get; set; } = new List<string>();
+        }
+
         public async Task<(string[], string)> GetPrediction(string sexo, int edad, string[] condiciones, string[] sintomas, string[] preguntas)
         {
-            string sintomasJoined = string.Join(" ", sintomas);
-
             var handler = new HttpClientHandler()
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
@@ -24,35 +27,13 @@ namespace Infrastructure.Services
             };
             using (var client = new HttpClient(handler))
             {
-                var scoreRequest = new
-                {
-                    Inputs = new Dictionary<string, List<Dictionary<string, string>>>()
-                    {
-                        {
-                            "WebServiceInput0",
-                            new List<Dictionary<string, string>>()
-                            {
-                                new Dictionary<string, string>()
-                                {
-                                    {
-                                        "ENFERMEDAD", ""
-                                    },
-                                    {
-                                        "SINTOMA", sintomasJoined
-                                    },
-                                }
-                            }
-                        },
-                    },
-                    GlobalParameters = new Dictionary<string, string>()
-                    {
-                    }
-                };
-
+                var scoreRequest = new AzureMLRequest();
+                
+                scoreRequest.data.Add(string.Join(" ", sintomas));
 
                 const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-                client.BaseAddress = new Uri("http://95079e12-7942-4f8c-8fde-43a58117e83e.centralus.azurecontainer.io/score");
+                client.BaseAddress = new Uri("http://010ca3df-222d-448c-9f5f-06465d18e94f.centralus.azurecontainer.io/score");
 
                 var requestString = JsonConvert.SerializeObject(scoreRequest);
                 var content = new StringContent(requestString);
@@ -65,37 +46,46 @@ namespace Infrastructure.Services
                 {
                     string result = await response.Content.ReadAsStringAsync();
 
-                    var resultConverted = JsonConvert.DeserializeObject<AzureMLResponse>(result);
 
-                    var enfermedades = resultConverted.Results.WebServiceOutput0;
 
-                    var top5enfermedades = new List<string>();
+                    //var enfermedades = resultConverted.Results.WebServiceOutput0;
 
-                    var columns = enfermedades.First().GetType().GetProperties();
+                    //var top5enfermedades = new List<string>();
 
-                    IDictionary<string, string> enfermedadesScore = new Dictionary<string, string>();
+                    //var columns = enfermedades.First().GetType().GetProperties();
 
-                    foreach (var item in columns)
+                    //IDictionary<string, string> enfermedadesScore = new Dictionary<string, string>();
+
+                    //foreach (var item in columns)
+                    //{
+                    //    if (item.Name.Contains("ScoredProbabilities_"))
+                    //    {
+                    //        var ggg = item.GetValue(enfermedades.First()).ToString();
+                    //        enfermedadesScore.Add(item.Name, ggg);
+                    //    }
+                    //}
+
+                    //foreach (var item in enfermedadesScore.OrderByDescending(x => x.Value).Take(5))
+                    //{
+                    //    var percDouble = double.Parse(item.Value);
+                    //    var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_", " ");
+
+                    //    top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
+                    //}
+
+                    var results = new List<string>();
+
+                    var resultCleaned = result.Replace("{", "").Replace("}", "").Replace(@"\", "").Replace("\"", "").Replace(@"'", "");
+
+                    foreach (var item in resultCleaned.Split(','))
                     {
-                        if (item.Name.Contains("ScoredProbabilities_"))
-                        {
-                            var ggg = item.GetValue(enfermedades.First()).ToString();
-                            enfermedadesScore.Add(item.Name, ggg);
-                        }
+                        results.Add(item.Trim());
                     }
 
-                    foreach (var item in enfermedadesScore.OrderByDescending(x => x.Value).Take(5))
-                    {
-                        var percDouble = double.Parse(item.Value);
-                        var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_", " ");
+                    var resultado = results;
+                    var resultadoMasPreciso = results[0].Split(":")[0];
 
-                        top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
-                    }
-
-                    var resultado = top5enfermedades.ToArray();
-                    var resultadoMasPreciso = enfermedades[0].ScoredLabels;
-
-                    return (resultado, resultadoMasPreciso);
+                    return (resultado.ToArray(), resultadoMasPreciso);
                 }
                 else
                 {
