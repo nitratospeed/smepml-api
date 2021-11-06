@@ -79,11 +79,13 @@ namespace Infrastructure.Services
 
                     foreach (var item in resultCleaned.Split(','))
                     {
-                        results.Add(item.Trim());
+                        var enf = item.Trim().Split(":")[0];
+                        var porc = double.Parse(item.Trim().Split(":")[1]);
+                        results.Add(enf + " : " + porc.ToString("P", CultureInfo.InvariantCulture));
                     }
 
                     var resultado = results;
-                    var resultadoMasPreciso = results[0].Split(":")[0];
+                    var resultadoMasPreciso = results[0].Split(":")[0].Trim();
 
                     return (resultado.ToArray(), resultadoMasPreciso);
                 }
