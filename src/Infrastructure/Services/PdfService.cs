@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using SelectPdf;
+using IronPdf;
 
 namespace Infrastructure.Services
 {
@@ -7,14 +7,20 @@ namespace Infrastructure.Services
     {
         public byte[] GetPdf(string html)
         {
-            HtmlToPdf htmlToPdf = new HtmlToPdf();
-            htmlToPdf.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
-            htmlToPdf.Options.MarginLeft = 15;
-            htmlToPdf.Options.MarginRight = 15;
+            //HtmlToPdf htmlToPdf = new HtmlToPdf();
+            //htmlToPdf.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+            //htmlToPdf.Options.MarginLeft = 15;
+            //htmlToPdf.Options.MarginRight = 15;
 
-            PdfDocument pdfDocument = htmlToPdf.ConvertHtmlString(html);
+            //PdfDocument pdfDocument = htmlToPdf.ConvertHtmlString(html);
 
-            var pdf = pdfDocument.Save();
+            //var pdf = pdfDocument.Save();
+
+            //return pdf;
+
+            var Renderer = new ChromePdfRenderer();
+
+            var pdf = Renderer.RenderHtmlAsPdf(html).BinaryData;
 
             return pdf;
         }
