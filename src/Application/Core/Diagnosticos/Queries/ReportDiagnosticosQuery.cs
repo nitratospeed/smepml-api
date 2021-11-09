@@ -55,7 +55,7 @@ namespace Application.Core.Diagnosticos.Queries
             {
                 foreach (var item in result.GroupBy(x => x.CreadoPor))
                 {
-                    var usuario = await context.Usuarios.FirstOrDefaultAsync(x=>x.Correo == item.Key);
+                    var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Correo == item.Key);
                     listDto.Add(new ReportDiagnosticosDto { Name = usuario.NombreCompleto, Value = item.Count().ToString() });
                 }
             }

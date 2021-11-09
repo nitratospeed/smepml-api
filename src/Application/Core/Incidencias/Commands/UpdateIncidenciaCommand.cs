@@ -50,7 +50,7 @@ namespace Application.Core.Incidencias.Commands
 
             if (request.Seguimientos.Any())
             {
-                foreach (var item in request.Seguimientos.Where(x=>x.Id == 0))
+                foreach (var item in request.Seguimientos.Where(x => x.Id == 0))
                 {
                     var seguimiento = mapper.Map<Seguimiento>(item);
                     seguimiento.IncidenciaId = entity.Id;

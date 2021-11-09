@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -28,7 +27,7 @@ namespace Infrastructure.Services
             using (var client = new HttpClient(handler))
             {
                 var scoreRequest = new AzureMLRequest();
-                
+
                 scoreRequest.data.Add(string.Join(" ", sintomas));
 
                 const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
@@ -45,33 +44,6 @@ namespace Infrastructure.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string result = await response.Content.ReadAsStringAsync();
-
-
-
-                    //var enfermedades = resultConverted.Results.WebServiceOutput0;
-
-                    //var top5enfermedades = new List<string>();
-
-                    //var columns = enfermedades.First().GetType().GetProperties();
-
-                    //IDictionary<string, string> enfermedadesScore = new Dictionary<string, string>();
-
-                    //foreach (var item in columns)
-                    //{
-                    //    if (item.Name.Contains("ScoredProbabilities_"))
-                    //    {
-                    //        var ggg = item.GetValue(enfermedades.First()).ToString();
-                    //        enfermedadesScore.Add(item.Name, ggg);
-                    //    }
-                    //}
-
-                    //foreach (var item in enfermedadesScore.OrderByDescending(x => x.Value).Take(5))
-                    //{
-                    //    var percDouble = double.Parse(item.Value);
-                    //    var nombreEnf = item.Key.Replace("ScoredProbabilities_", "").Replace("_", " ");
-
-                    //    top5enfermedades.Add(nombreEnf + " : " + percDouble.ToString("P", CultureInfo.InvariantCulture));
-                    //}
 
                     var results = new List<string>();
 
