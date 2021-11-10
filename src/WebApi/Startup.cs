@@ -67,14 +67,14 @@ namespace WebApi
 
             services.AddCors(options =>
             {
-                options.AddPolicy(AllowSpecificOrigins,
-                builder =>
-                {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                options.AddPolicy(name: AllowSpecificOrigins,
+                              builder =>
+                              {
+                                  builder
+                                      .WithOrigins("https://smepml.azurewebsites.net")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                              });
             });
 
             services.Configure<ApiBehaviorOptions>(options =>

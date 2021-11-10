@@ -1,16 +1,25 @@
 ﻿using Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Security;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
     public class AzureMLService : IAzureMLService
     {
+        private readonly IAppDbContext _appDbContext;
+
+        public AzureMLService(IAppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
         public class AzureMLRequest
         {
             public List<string> data { get; set; } = new List<string>();
@@ -18,11 +27,16 @@ namespace Infrastructure.Services
 
         public async Task<(string[], string)> GetPrediction(string sexo, int edad, string[] condiciones, string[] sintomas, string[] preguntas)
         {
+            var apiKey = await _appDbContext.Configuraciones.FirstOrDefaultAsync(x => x.Key == "AzureMLApiKey");
+            var uri = await _appDbContext.Configuraciones.FirstOrDefaultAsync(x => x.Key == "AzureMLURI");
+
             var handler = new HttpClientHandler()
             {
                 ClientCertificateOptions = ClientCertificateOption.Manual,
                 ServerCertificateCustomValidationCallback =
-                        (httpRequestMessage, cert, cetChain, policyErrors) => { return true; }
+                        (httpRequestMessage, cert, cetChain, policyErrors) => {
+                            return policyErrors == SslPolicyErrors.None;
+                        }
             };
             using (var client = new HttpClient(handler))
             {
@@ -30,9 +44,8 @@ namespace Infrastructure.Services
 
                 scoreRequest.data.Add(string.Join(" ", sintomas));
 
-                const string apiKey = "2zGHbBLYIA7GcR4qN7EBvzvFPRWdr6I5"; // Replace this with the API key for the web service
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-                client.BaseAddress = new Uri("http://010ca3df-222d-448c-9f5f-06465d18e94f.centralus.azurecontainer.io/score");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey.Value);
+                client.BaseAddress = new Uri(uri.Value);
 
                 var requestString = JsonConvert.SerializeObject(scoreRequest);
                 var content = new StringContent(requestString);

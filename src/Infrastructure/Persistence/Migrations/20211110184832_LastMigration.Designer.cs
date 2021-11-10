@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210819204427_Agregado_Usuarios_Incidencias")]
-    partial class Agregado_Usuarios_Incidencias
+    [Migration("20211110184832_LastMigration")]
+    partial class LastMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,30 @@ namespace Infrastructure.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "3.1.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Entities.Configuracion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Configuracion");
+                });
 
             modelBuilder.Entity("Domain.Entities.Diagnostico", b =>
                 {
@@ -30,9 +54,27 @@ namespace Infrastructure.Persistence.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("ActualizadoEn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<int>("Calificacion")
+                        .HasColumnType("int");
+
                     b.Property<string>("Condiciones")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreadoEn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreadoPor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<int>("PacienteId")
                         .HasColumnType("int");
@@ -42,6 +84,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResultadoMasPreciso")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Resultados")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sintomas")
@@ -189,6 +236,13 @@ namespace Infrastructure.Persistence.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("ActualizadoEn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
                     b.Property<string>("Apellidos")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -200,6 +254,14 @@ namespace Infrastructure.Persistence.Migrations
                         .HasMaxLength(9);
 
                     b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<DateTime>("CreadoEn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreadoPor")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
@@ -260,6 +322,30 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("SintomaId");
 
                     b.ToTable("Pregunta");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Seguimiento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("IncidenciaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IncidenciaId");
+
+                    b.ToTable("Seguimiento");
                 });
 
             modelBuilder.Entity("Domain.Entities.Sintoma", b =>
@@ -389,6 +475,15 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Domain.Entities.Sintoma", "Sintoma")
                         .WithMany("Preguntas")
                         .HasForeignKey("SintomaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Seguimiento", b =>
+                {
+                    b.HasOne("Domain.Entities.Incidencia", "Incidencia")
+                        .WithMany("Seguimientos")
+                        .HasForeignKey("IncidenciaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
